@@ -3,25 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Small-Cap Tournament Results</title>
+    <title>Ticker Helper — Small-Cap Tournament Ledger</title>
     <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./assets/results_dashboard.css" />
   </head>
   <body>
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="tape" aria-hidden="true">
+      <div class="tape-track" id="tape-track">
+        <span class="tape-item">◆ Ticker Helper Ledger · Global Small-Cap Tournament · MMXXVI</span>
+        <span class="tape-item">▲ 50,435 inputs screened</span>
+        <span class="tape-item">▲ 1,000 Pro theses</span>
+        <span class="tape-item">▲ 100 finalists ranked</span>
+        <span class="tape-item">◆ DeepSeek V4 Flash → Pro elimination</span>
+      </div>
+    </div>
+
     <div class="app-shell">
       <aside class="rail" aria-label="Dashboard navigation">
         <div class="brand">
-          <div class="brand-mark">TH</div>
-          <div>
-            <p class="eyebrow">Ticker Helper</p>
-            <h1>Small-Cap Tournament</h1>
+          <div class="brand-mark" aria-hidden="true">
+            <span class="brand-glyph">TH</span>
+            <span class="brand-rule"></span>
+          </div>
+          <div class="brand-text">
+            <p class="eyebrow">Volume I &middot; Edition 26</p>
+            <h1>Small-Cap<br />Tournament<br /><em>Ledger</em></h1>
           </div>
         </div>
 
+        <p class="rail-divider"><span>Result Sets</span></p>
         <nav class="stage-tabs" id="stage-tabs" aria-label="Result sets"></nav>
 
         <div class="rail-section">
-          <p class="rail-label">Audit Evidence</p>
+          <p class="rail-divider"><span>Audit Evidence</span></p>
           <div class="audit-list" id="audit-list">
             <div class="audit-item">
               <span class="audit-dot"></span>
@@ -29,21 +51,39 @@
             </div>
           </div>
         </div>
+
+        <p class="rail-foot">
+          Set in <em>Fraunces</em> &amp; <em>IBM Plex</em>.<br />
+          Numerals: JetBrains Mono.<br />
+          <span class="rail-mark">№ 100/100</span>
+        </p>
       </aside>
 
       <main class="workspace">
         <header class="page-head">
           <div class="title-block">
-            <p class="eyebrow">Global small-cap research run</p>
-            <h2 id="stage-title">Final Top 100</h2>
-            <p id="stage-description">Loading saved result artifacts...</p>
+            <p class="masthead-meta">
+              <span>Global Small-Cap Research Run</span>
+              <span class="dot">●</span>
+              <span>Filed 2026</span>
+              <span class="dot">●</span>
+              <span>Edition I</span>
+            </p>
+            <h2 id="stage-title" class="display-headline">Final Top 100</h2>
+            <p id="stage-description" class="lede">Loading saved result artifacts…</p>
+            <div class="rule-bar" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+            </div>
           </div>
           <div class="status-stack">
             <div class="status-card">
               <span class="status-label">Dataset</span>
               <strong id="dataset-status">Loading</strong>
+              <span class="status-corner" aria-hidden="true"></span>
             </div>
-            <a class="action-link" id="csv-link" href="#" download hidden>Download CSV</a>
+            <a class="action-link" id="csv-link" href="#" download hidden>
+              <span>Download CSV</span>
+            </a>
           </div>
         </header>
 
@@ -52,8 +92,8 @@
         <section class="insights-band" aria-label="50,435 input tournament insights">
           <div class="section-head">
             <div>
-              <p class="eyebrow">50,435-Input Funnel</p>
-              <h3>Screen Insights</h3>
+              <p class="eyebrow">Funnel Dispatch</p>
+              <h3>Screen Insights <span class="ornament">⸻ ⸻</span></h3>
             </div>
             <span id="insight-status">Loading insight summary</span>
           </div>
@@ -61,6 +101,10 @@
         </section>
 
         <section class="results-panel" aria-label="Ranking results">
+          <div class="panel-head">
+            <p class="eyebrow">The Ledger</p>
+            <h3>Ranked Names <span class="ornament">◆</span></h3>
+          </div>
           <div class="toolbar">
             <div class="search-field">
               <span class="search-icon" aria-hidden="true"></span>
@@ -74,7 +118,7 @@
             </div>
             <div class="toolbar-actions">
               <div class="segmented" role="group" aria-label="Table density">
-                <button type="button" data-density="comfortable" class="active">Comfort</button>
+                <button type="button" data-density="comfortable" class="active">Folio</button>
                 <button type="button" data-density="compact">Compact</button>
               </div>
               <select id="stage-select" aria-label="Result set"></select>
@@ -88,7 +132,7 @@
               <thead>
                 <tr>
                   <th data-sort-header="rank" aria-sort="ascending">
-                    <button class="sort-btn" type="button" data-sort="rank">Rank</button>
+                    <button class="sort-btn" type="button" data-sort="rank">№</button>
                   </th>
                   <th data-sort-header="ticker">
                     <button class="sort-btn" type="button" data-sort="ticker">Ticker</button>
@@ -100,14 +144,14 @@
                     <button class="sort-btn" type="button" data-sort="market">Market</button>
                   </th>
                   <th data-sort-header="value">
-                    <button class="sort-btn" type="button" data-sort="value">Value</button>
+                    <button class="sort-btn" type="button" data-sort="value">Market Cap</button>
                   </th>
                   <th>Rationale</th>
                 </tr>
               </thead>
               <tbody id="rankings-body">
                 <tr>
-                  <td colspan="6" class="muted">Loading rankings...</td>
+                  <td colspan="6" class="muted">Loading rankings…</td>
                 </tr>
               </tbody>
             </table>
@@ -116,6 +160,12 @@
           <div class="rounds" id="rounds"></div>
           <div class="batch-audit" id="batch-audit"></div>
         </section>
+
+        <footer class="colophon">
+          <span>◆ End of Folio</span>
+          <span>Ticker Helper · A research instrument</span>
+          <span id="footer-stamp">Set in Fraunces</span>
+        </footer>
       </main>
     </div>
 
@@ -123,12 +173,12 @@
     <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Investment thesis">
       <div class="drawer-head">
         <div>
-          <p class="eyebrow">Investment Thesis</p>
+          <p class="eyebrow">Investment Thesis · Filed</p>
           <h3 class="drawer-title" id="drawer-title">Thesis</h3>
           <p class="drawer-subtitle" id="drawer-subtitle"></p>
         </div>
         <button class="icon-btn" id="close-drawer" type="button" title="Close" aria-label="Close thesis">
-          X
+          ✕
         </button>
       </div>
       <div class="drawer-body">
@@ -142,12 +192,10 @@
         "mode": "static",
         "apiBase": "./data",
         "defaultStage": "final_top100",
-        "stages": [
-                "final_top100"
-        ],
+        "stages": ["final_top100"],
         "showAudit": false,
         "publicMode": true
-};
+      };
     </script>
     <script src="./assets/results_dashboard.js"></script>
   </body>
