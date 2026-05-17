@@ -1,0 +1,336 @@
+{
+  "tournament_id": "global-smallcap-20260516",
+  "updated_at_utc": "2026-05-16T22:59:37.359881+00:00",
+  "stages": {
+    "flash_top1000": {
+      "input_count": 50435,
+      "final_count": 1000,
+      "rounds_completed": 4
+    },
+    "pro_top100": {
+      "input_count": 1000,
+      "final_count": 100,
+      "rounds_completed": 2
+    }
+  },
+  "final_rank_rows": 100,
+  "tournament_insights": {
+    "flash": {
+      "count": 1000,
+      "top_countries": [
+        {
+          "label": "US",
+          "count": 181
+        },
+        {
+          "label": "DE",
+          "count": 169
+        },
+        {
+          "label": "JP",
+          "count": 123
+        },
+        {
+          "label": "IN",
+          "count": 80
+        },
+        {
+          "label": "KR",
+          "count": 69
+        },
+        {
+          "label": "TW",
+          "count": 68
+        },
+        {
+          "label": "CN",
+          "count": 40
+        },
+        {
+          "label": "CA",
+          "count": 27
+        }
+      ],
+      "top_exchanges": [
+        {
+          "label": "TSE",
+          "count": 106
+        },
+        {
+          "label": "Frankfurt",
+          "count": 104
+        },
+        {
+          "label": "OTC Markets OTCPK",
+          "count": 79
+        },
+        {
+          "label": "KRX",
+          "count": 58
+        },
+        {
+          "label": "BSE",
+          "count": 46
+        },
+        {
+          "label": "NSE",
+          "count": 34
+        },
+        {
+          "label": "LSX",
+          "count": 33
+        },
+        {
+          "label": "COMPANIESMARKETCAP",
+          "count": 27
+        }
+      ],
+      "market_cap_min": 10060000.0,
+      "market_cap_median": 76065020.4,
+      "market_cap_max": 1000000000.0,
+      "market_cap_bands": {
+        "$50-150M": 325,
+        "$150-500M": 234,
+        "<$50M": 359,
+        "$500M-1B": 82
+      }
+    },
+    "pro": {
+      "count": 100,
+      "top_countries": [
+        {
+          "label": "US",
+          "count": 20
+        },
+        {
+          "label": "DE",
+          "count": 16
+        },
+        {
+          "label": "JP",
+          "count": 13
+        },
+        {
+          "label": "KR",
+          "count": 7
+        },
+        {
+          "label": "TW",
+          "count": 7
+        },
+        {
+          "label": "IN",
+          "count": 4
+        },
+        {
+          "label": "CA",
+          "count": 4
+        },
+        {
+          "label": "CN",
+          "count": 4
+        }
+      ],
+      "top_exchanges": [
+        {
+          "label": "Frankfurt",
+          "count": 14
+        },
+        {
+          "label": "TSE",
+          "count": 12
+        },
+        {
+          "label": "OTC Markets OTCPK",
+          "count": 9
+        },
+        {
+          "label": "KRX",
+          "count": 6
+        },
+        {
+          "label": "COMPANIESMARKETCAP",
+          "count": 5
+        },
+        {
+          "label": "OTC Markets OTCQB",
+          "count": 3
+        },
+        {
+          "label": "OTC Markets OTCID",
+          "count": 3
+        },
+        {
+          "label": "Toronto",
+          "count": 3
+        }
+      ],
+      "market_cap_min": 10871601.16,
+      "market_cap_median": 94693562.425,
+      "market_cap_max": 650866608.36,
+      "market_cap_bands": {
+        "<$50M": 29,
+        "$50-150M": 36,
+        "$150-500M": 27,
+        "$500M-1B": 8
+      }
+    },
+    "final": {
+      "count": 100,
+      "top_countries": [
+        {
+          "label": "US",
+          "count": 20
+        },
+        {
+          "label": "DE",
+          "count": 16
+        },
+        {
+          "label": "JP",
+          "count": 13
+        },
+        {
+          "label": "KR",
+          "count": 7
+        },
+        {
+          "label": "TW",
+          "count": 7
+        },
+        {
+          "label": "CA",
+          "count": 4
+        },
+        {
+          "label": "IN",
+          "count": 4
+        },
+        {
+          "label": "CN",
+          "count": 4
+        }
+      ],
+      "top_exchanges": [
+        {
+          "label": "Frankfurt",
+          "count": 14
+        },
+        {
+          "label": "TSE",
+          "count": 12
+        },
+        {
+          "label": "OTC Markets OTCPK",
+          "count": 9
+        },
+        {
+          "label": "KRX",
+          "count": 6
+        },
+        {
+          "label": "COMPANIESMARKETCAP",
+          "count": 5
+        },
+        {
+          "label": "OTC Markets OTCID",
+          "count": 3
+        },
+        {
+          "label": "OTC Markets OTCQB",
+          "count": 3
+        },
+        {
+          "label": "Toronto",
+          "count": 3
+        }
+      ],
+      "market_cap_min": 10871601.16,
+      "market_cap_median": 94693562.425,
+      "market_cap_max": 650866608.36,
+      "market_cap_bands": {
+        "$50-150M": 36,
+        "$500M-1B": 8,
+        "$150-500M": 27,
+        "<$50M": 29
+      }
+    },
+    "flash_rounds": [
+      {
+        "round_id": "round_001",
+        "round_index": 1,
+        "input_count": 50435,
+        "batch_count": 5044,
+        "winner_count": 15132,
+        "total_tokens": 40897596
+      },
+      {
+        "round_id": "round_002",
+        "round_index": 2,
+        "input_count": 15132,
+        "batch_count": 1514,
+        "winner_count": 4541,
+        "total_tokens": 13169745
+      },
+      {
+        "round_id": "round_003",
+        "round_index": 3,
+        "input_count": 4541,
+        "batch_count": 455,
+        "winner_count": 1363,
+        "total_tokens": 4026839
+      },
+      {
+        "round_id": "round_004",
+        "round_index": 4,
+        "input_count": 1363,
+        "batch_count": 137,
+        "winner_count": 1000,
+        "total_tokens": 1310596
+      }
+    ],
+    "pro_rounds": [
+      {
+        "round_id": "round_001",
+        "round_index": 1,
+        "input_count": 1000,
+        "batch_count": 100,
+        "winner_count": 300,
+        "total_tokens": 1277335
+      },
+      {
+        "round_id": "round_002",
+        "round_index": 2,
+        "input_count": 300,
+        "batch_count": 30,
+        "winner_count": 100,
+        "total_tokens": 386342
+      }
+    ],
+    "migration": {
+      "final_with_flash_rank": 100,
+      "final_flash_rank_min": 11,
+      "final_flash_rank_median": 465.5,
+      "final_flash_rank_max": 999,
+      "final_in_flash_top100": 9,
+      "final_with_pro_rank": 100,
+      "final_pro_rank_median": 50.5,
+      "final_in_pro_top25": 25
+    },
+    "audit": {
+      "flash_batch_decisions": 7150,
+      "pro_batch_decisions": 130,
+      "flash_total_tokens": 59404776,
+      "pro_total_tokens": 1663677
+    }
+  },
+  "public_scope": {
+    "final_rank_rows": 100,
+    "flash_inputs": 50435,
+    "pro_inputs": 1000,
+    "pro_thesis_count": 1000,
+    "codex_top100_count": 100,
+    "batch_decisions": 7280,
+    "generated_at_utc": "2026-05-17T02:05:22.197322+00:00"
+  }
+}

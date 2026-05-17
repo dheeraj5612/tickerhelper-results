@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Small-Cap Tournament Results</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./assets/results_dashboard.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail" aria-label="Dashboard navigation">
+        <div class="brand">
+          <div class="brand-mark">TH</div>
+          <div>
+            <p class="eyebrow">Ticker Helper</p>
+            <h1>Small-Cap Tournament</h1>
+          </div>
+        </div>
+
+        <nav class="stage-tabs" id="stage-tabs" aria-label="Result sets"></nav>
+
+        <div class="rail-section">
+          <p class="rail-label">Audit Evidence</p>
+          <div class="audit-list" id="audit-list">
+            <div class="audit-item">
+              <span class="audit-dot"></span>
+              <span>Loading saved evidence</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="page-head">
+          <div class="title-block">
+            <p class="eyebrow">Global small-cap research run</p>
+            <h2 id="stage-title">Final Top 100</h2>
+            <p id="stage-description">Loading saved result artifacts...</p>
+          </div>
+          <div class="status-stack">
+            <div class="status-card">
+              <span class="status-label">Dataset</span>
+              <strong id="dataset-status">Loading</strong>
+            </div>
+            <a class="action-link" id="csv-link" href="#" download hidden>CSV</a>
+          </div>
+        </header>
+
+        <section class="metric-grid" id="metrics" aria-label="Summary metrics"></section>
+
+        <section class="insights-band" aria-label="50,435 input tournament insights">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">50,435-Input Funnel</p>
+              <h3>Screen Insights</h3>
+            </div>
+            <span id="insight-status">Loading insight summary</span>
+          </div>
+          <div class="insight-grid" id="insights"></div>
+        </section>
+
+        <section class="results-panel" aria-label="Ranking results">
+          <div class="toolbar">
+            <div class="search-field">
+              <span aria-hidden="true">/</span>
+              <input
+                id="search"
+                type="search"
+                placeholder="Search ticker, company, market, country, or rationale"
+                autocomplete="off"
+              />
+            </div>
+            <select id="stage-select" aria-label="Result set"></select>
+          </div>
+
+          <div class="table-summary" id="table-summary"></div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Ticker</th>
+                  <th>Company</th>
+                  <th>Market</th>
+                  <th>Value</th>
+                  <th>Rationale</th>
+                </tr>
+              </thead>
+              <tbody id="rankings-body">
+                <tr>
+                  <td colspan="6" class="muted">Loading rankings...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="rounds" id="rounds"></div>
+          <div class="batch-audit" id="batch-audit"></div>
+        </section>
+      </main>
+    </div>
+
+    <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+    <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Investment thesis">
+      <div class="drawer-head">
+        <div>
+          <p class="eyebrow">Investment Thesis</p>
+          <h3 class="drawer-title" id="drawer-title">Thesis</h3>
+          <p class="drawer-subtitle" id="drawer-subtitle"></p>
+        </div>
+        <button class="icon-btn" id="close-drawer" type="button" title="Close" aria-label="Close thesis">
+          X
+        </button>
+      </div>
+      <div class="drawer-body">
+        <div id="thesis-meta" class="thesis-meta"></div>
+        <article id="thesis-content" class="thesis"></article>
+      </div>
+    </aside>
+
+    <script id="results-config">
+      window.RESULTS_DASHBOARD_CONFIG = {
+        "mode": "static",
+        "apiBase": "./data",
+        "defaultStage": "final_top100",
+        "stages": [
+                "final_top100"
+        ],
+        "showAudit": false,
+        "publicMode": true
+};
+    </script>
+    <script src="./assets/results_dashboard.js"></script>
+  </body>
+</html>
