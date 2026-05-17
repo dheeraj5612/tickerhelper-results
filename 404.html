@@ -43,7 +43,7 @@
               <span class="status-label">Dataset</span>
               <strong id="dataset-status">Loading</strong>
             </div>
-            <a class="action-link" id="csv-link" href="#" download hidden>CSV</a>
+            <a class="action-link" id="csv-link" href="#" download hidden>Download CSV</a>
           </div>
         </header>
 
@@ -63,15 +63,22 @@
         <section class="results-panel" aria-label="Ranking results">
           <div class="toolbar">
             <div class="search-field">
-              <span aria-hidden="true">/</span>
+              <span class="search-icon" aria-hidden="true"></span>
               <input
                 id="search"
                 type="search"
                 placeholder="Search ticker, company, market, country, or rationale"
                 autocomplete="off"
               />
+              <kbd aria-hidden="true">/</kbd>
             </div>
-            <select id="stage-select" aria-label="Result set"></select>
+            <div class="toolbar-actions">
+              <div class="segmented" role="group" aria-label="Table density">
+                <button type="button" data-density="comfortable" class="active">Comfort</button>
+                <button type="button" data-density="compact">Compact</button>
+              </div>
+              <select id="stage-select" aria-label="Result set"></select>
+            </div>
           </div>
 
           <div class="table-summary" id="table-summary"></div>
@@ -80,11 +87,21 @@
             <table>
               <thead>
                 <tr>
-                  <th>Rank</th>
-                  <th>Ticker</th>
-                  <th>Company</th>
-                  <th>Market</th>
-                  <th>Value</th>
+                  <th data-sort-header="rank" aria-sort="ascending">
+                    <button class="sort-btn" type="button" data-sort="rank">Rank</button>
+                  </th>
+                  <th data-sort-header="ticker">
+                    <button class="sort-btn" type="button" data-sort="ticker">Ticker</button>
+                  </th>
+                  <th data-sort-header="company">
+                    <button class="sort-btn" type="button" data-sort="company">Company</button>
+                  </th>
+                  <th data-sort-header="market">
+                    <button class="sort-btn" type="button" data-sort="market">Market</button>
+                  </th>
+                  <th data-sort-header="value">
+                    <button class="sort-btn" type="button" data-sort="value">Value</button>
+                  </th>
                   <th>Rationale</th>
                 </tr>
               </thead>

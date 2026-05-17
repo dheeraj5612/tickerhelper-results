@@ -28,12 +28,24 @@
     },
   };
 
+  const savedDensity = (() => {
+    try {
+      return localStorage.getItem("tickerhelper-results-density") || "";
+    } catch (_error) {
+      return "";
+    }
+  })();
+
   const state = {
     stage: config.defaultStage,
     rows: [],
     stageData: null,
     overview: null,
     query: "",
+    sortKey: "rank",
+    sortDir: "asc",
+    density: savedDensity === "compact" ? "compact" : "comfortable",
+    selectedKey: "",
   };
 
   const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
@@ -65,6 +77,9 @@
     drawerSubtitle: document.getElementById("drawer-subtitle"),
     thesisMeta: document.getElementById("thesis-meta"),
     thesisContent: document.getElementById("thesis-content"),
+    sortHeaders: document.querySelectorAll("[data-sort-header]"),
+    sortButtons: document.querySelectorAll("[data-sort]"),
+    densityButtons: document.querySelectorAll("[data-density]"),
   };
 
   function apiUrl(path) {
@@ -249,7 +264,7 @@
 
   function renderRows() {
     const query = state.query.trim().toLowerCase();
-    const rows = query
+    const filteredRows = query
       ? state.rows.filter((row) => {
           const haystack = [
             row.ticker,
@@ -263,9 +278,11 @@
             .toLowerCase();
           return haystack.includes(query);
         })
-      : state.rows;
+      : state.rows.slice();
+    const rows = sortRows(filteredRows);
 
     renderSummary(rows);
+    updateSortUi();
 
     if (!rows.length) {
       els.body.innerHTML = `<tr><td colspan="6" class="muted">No rows match the current filter.</td></tr>`;
@@ -277,26 +294,67 @@
         const marketCap = Number(row.market_cap_usd);
         const marketCapText = Number.isFinite(marketCap) ? money.format(marketCap) : "";
         const reason = row.reason || row.rationale || "";
-        return `<tr data-thesis-path="${escapeAttr(row.thesis_path || "")}" data-thesis-data-path="${escapeAttr(row.thesis_data_path || "")}" data-ticker="${escapeAttr(row.ticker || "")}">
-          <td class="rank">${escapeHtml(row.final_rank || row.rank || "")}</td>
-          <td class="ticker-cell">
+        const key = rowKey(row);
+        const selectedClass = key && key === state.selectedKey ? "selected" : "";
+        return `<tr class="${selectedClass}" tabindex="0" data-row-key="${escapeAttr(key)}" data-thesis-path="${escapeAttr(row.thesis_path || "")}" data-thesis-data-path="${escapeAttr(row.thesis_data_path || "")}" data-ticker="${escapeAttr(row.ticker || "")}">
+          <td class="rank" data-label="Rank">${escapeHtml(row.final_rank || row.rank || "")}</td>
+          <td class="ticker-cell" data-label="Ticker">
             <span class="ticker">${escapeHtml(row.ticker || "")}</span>
             <span class="ticker-sub">${escapeHtml(row.currency || "")}</span>
           </td>
-          <td class="company-cell">
+          <td class="company-cell" data-label="Company">
             <span class="company-name">${escapeHtml(row.company_name || "")}</span>
           </td>
-          <td>
-        <div class="chip-row">
+          <td data-label="Market">
+            <div class="chip-row">
               ${chip(row.exchange)}
               ${chip(row.country)}
             </div>
           </td>
-          <td class="value-cell">${escapeHtml(marketCapText)}</td>
-          <td class="reason">${escapeHtml(reason)}</td>
+          <td class="value-cell" data-label="Value">${escapeHtml(marketCapText)}</td>
+          <td class="reason" data-label="Rationale">${escapeHtml(reason)}</td>
         </tr>`;
       })
       .join("");
+  }
+
+  function sortRows(rows) {
+    const direction = state.sortDir === "desc" ? -1 : 1;
+    return rows.slice().sort((left, right) => {
+      const a = sortValue(left, state.sortKey);
+      const b = sortValue(right, state.sortKey);
+      const primary = compareSortValues(a, b) * direction;
+      if (primary) return primary;
+      return compareSortValues(sortValue(left, "rank"), sortValue(right, "rank"));
+    });
+  }
+
+  function sortValue(row, key) {
+    if (key === "rank") {
+      const rank = Number(row.final_rank || row.rank);
+      return Number.isFinite(rank) ? rank : Number.POSITIVE_INFINITY;
+    }
+    if (key === "ticker") return String(row.ticker || "").toLowerCase();
+    if (key === "company") return String(row.company_name || "").toLowerCase();
+    if (key === "market") return `${row.country || ""} ${row.exchange || ""}`.toLowerCase();
+    if (key === "value") {
+      const marketCap = Number(row.market_cap_usd);
+      return Number.isFinite(marketCap) ? marketCap : Number.NEGATIVE_INFINITY;
+    }
+    return "";
+  }
+
+  function compareSortValues(a, b) {
+    if (typeof a === "number" && typeof b === "number") return a - b;
+    return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: "base" });
+  }
+
+  function rowKey(row) {
+    return [
+      row.thesis_data_path || row.thesis_path || "",
+      row.ticker || "",
+      row.final_rank || row.rank || "",
+    ].join("|");
   }
 
   function renderSummary(rows) {
@@ -369,6 +427,8 @@
     const thesisDataPath = row.dataset.thesisDataPath || "";
     if (!path && !thesisDataPath) return;
 
+    state.selectedKey = row.dataset.rowKey || "";
+    markSelectedRows();
     els.drawer.classList.add("open");
     els.drawer.setAttribute("aria-hidden", "false");
     els.backdrop.hidden = false;
@@ -407,6 +467,14 @@
     els.drawer.classList.remove("open");
     els.drawer.setAttribute("aria-hidden", "true");
     els.backdrop.hidden = true;
+    state.selectedKey = "";
+    markSelectedRows();
+  }
+
+  function markSelectedRows() {
+    els.body.querySelectorAll("tr").forEach((row) => {
+      row.classList.toggle("selected", Boolean(state.selectedKey) && row.dataset.rowKey === state.selectedKey);
+    });
   }
 
   function updateCsvLink(data) {
@@ -461,6 +529,39 @@
     return escapeHtml(value).replaceAll("`", "&#096;");
   }
 
+  function updateSortUi() {
+    els.sortHeaders.forEach((header) => {
+      const isActive = header.dataset.sortHeader === state.sortKey;
+      header.setAttribute("aria-sort", isActive ? (state.sortDir === "asc" ? "ascending" : "descending") : "none");
+    });
+    els.sortButtons.forEach((button) => {
+      const isActive = button.dataset.sort === state.sortKey;
+      button.classList.toggle("active", isActive);
+      button.dataset.direction = isActive ? state.sortDir : "";
+    });
+  }
+
+  function applyDensity(density) {
+    state.density = density === "compact" ? "compact" : "comfortable";
+    document.body.classList.toggle("density-compact", state.density === "compact");
+    els.densityButtons.forEach((button) => {
+      const active = button.dataset.density === state.density;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    try {
+      localStorage.setItem("tickerhelper-results-density", state.density);
+    } catch (_error) {
+      // Ignore storage failures in private or locked-down browsers.
+    }
+  }
+
+  function isTypingTarget(target) {
+    if (!target) return false;
+    const tagName = target.tagName;
+    return target.isContentEditable || tagName === "INPUT" || tagName === "TEXTAREA" || tagName === "SELECT";
+  }
+
   els.tabs.addEventListener("click", (event) => {
     const button = event.target.closest("button[data-stage]");
     if (!button) return;
@@ -469,6 +570,26 @@
 
   els.select.addEventListener("change", (event) => {
     loadStage(event.target.value).catch(renderStageError);
+  });
+
+  els.sortButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const key = button.dataset.sort;
+      if (!key) return;
+      if (state.sortKey === key) {
+        state.sortDir = state.sortDir === "asc" ? "desc" : "asc";
+      } else {
+        state.sortKey = key;
+        state.sortDir = key === "value" ? "desc" : "asc";
+      }
+      renderRows();
+    });
+  });
+
+  els.densityButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      applyDensity(button.dataset.density);
+    });
   });
 
   els.search.addEventListener("input", (event) => {
@@ -482,6 +603,14 @@
     openThesis(row);
   });
 
+  els.body.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const row = event.target.closest("tr");
+    if (!row) return;
+    event.preventDefault();
+    openThesis(row);
+  });
+
   els.rounds.addEventListener("click", (event) => {
     const button = event.target.closest("button[data-round-id]");
     if (!button) return;
@@ -491,13 +620,31 @@
   document.getElementById("close-drawer").addEventListener("click", closeDrawer);
   els.backdrop.addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeDrawer();
+    if (event.key === "/" && !event.metaKey && !event.ctrlKey && !event.altKey && !isTypingTarget(event.target)) {
+      event.preventDefault();
+      els.search.focus();
+      els.search.select();
+      return;
+    }
+    if (event.key === "Escape") {
+      if (els.drawer.classList.contains("open")) {
+        closeDrawer();
+        return;
+      }
+      if (document.activeElement === els.search && els.search.value) {
+        els.search.value = "";
+        state.query = "";
+        renderRows();
+      }
+    }
   });
 
   function renderStageError(error) {
     els.body.innerHTML = `<tr><td colspan="6">${escapeHtml(error)}</td></tr>`;
   }
 
+  applyDensity(state.density);
+  updateSortUi();
   mountStageControls();
   loadOverview().catch((error) => {
     els.status.textContent = `Overview failed: ${error}`;
