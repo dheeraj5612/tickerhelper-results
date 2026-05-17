@@ -1164,19 +1164,9 @@ tbody tr:focus-visible td {
   -webkit-line-clamp: 2;
 }
 
-th:nth-child(1), td:nth-child(1) {
-  position: sticky;
-  left: 0;
-  z-index: 2;
-}
-th:nth-child(2), td:nth-child(2) {
-  position: sticky;
-  left: 92px;
-  z-index: 2;
-  box-shadow: 1px 0 0 var(--rule-hair);
-}
+/* Sticky-left columns removed: caused overlap with company column at full
+   viewport widths. The first columns still scroll within the table-wrap. */
 thead th:nth-child(1), thead th:nth-child(2) {
-  z-index: 4;
   background: var(--ink);
 }
 
