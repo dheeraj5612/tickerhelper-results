@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ticker Helper — Small-Cap Tournament Ledger</title>
+    <title>Small-Cap Tournament — Ticker Helper Research</title>
     <link rel="icon" href="data:," />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,18 +11,18 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./assets/results_dashboard.css?v=20260516-2" />
+    <link rel="stylesheet" href="./assets/results_dashboard.css?v=20260517a" />
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>
 
     <div class="tape" aria-hidden="true">
       <div class="tape-track" id="tape-track">
-        <span class="tape-item">◆ Ticker Helper Ledger · Global Small-Cap Tournament · MMXXVI</span>
-        <span class="tape-item">▲ 50,435 inputs screened</span>
-        <span class="tape-item">▲ 1,000 Pro theses</span>
-        <span class="tape-item">▲ 100 finalists ranked</span>
-        <span class="tape-item">◆ DeepSeek V4 Flash → Pro elimination</span>
+        <span class="tape-item">Ticker Helper · Global Small-Cap Tournament · 2026</span>
+        <span class="tape-item">50,435 inputs screened</span>
+        <span class="tape-item">1,000 Pro theses</span>
+        <span class="tape-item">100 finalists ranked</span>
+        <span class="tape-item">DeepSeek V4 Flash → Pro elimination</span>
       </div>
     </div>
 
@@ -34,8 +34,8 @@
             <span class="brand-rule"></span>
           </div>
           <div class="brand-text">
-            <p class="eyebrow">Volume I &middot; Edition 26</p>
-            <h1>Small-Cap<br />Tournament<br /><em>Ledger</em></h1>
+            <p class="eyebrow">Research Report</p>
+            <h1>Small-Cap<br />Tournament</h1>
           </div>
         </div>
 
@@ -43,37 +43,26 @@
         <nav class="stage-tabs" id="stage-tabs" aria-label="Result sets"></nav>
 
         <div class="rail-section">
-          <p class="rail-divider"><span>Audit Evidence</span></p>
+          <p class="rail-divider"><span>Methodology</span></p>
           <div class="audit-list" id="audit-list">
             <div class="audit-item">
               <span class="audit-dot"></span>
-              <span>Loading saved evidence</span>
+              <span>Loading methodology</span>
             </div>
           </div>
         </div>
-
-        <p class="rail-foot">
-          Set in <em>Fraunces</em> &amp; <em>IBM Plex</em>.<br />
-          Numerals: JetBrains Mono.<br />
-          <span class="rail-mark">№ 100/100</span>
-        </p>
       </aside>
 
       <main class="workspace">
         <header class="page-head">
           <div class="title-block">
             <p class="masthead-meta">
-              <span>Global Small-Cap Research Run</span>
+              <span>Global Small-Cap Research</span>
               <span class="dot">●</span>
-              <span>Filed 2026</span>
-              <span class="dot">●</span>
-              <span>Edition I</span>
+              <span id="report-date">Updated 2026</span>
             </p>
             <h2 id="stage-title" class="display-headline">Final Top 100</h2>
             <p id="stage-description" class="lede">Loading saved result artifacts…</p>
-            <div class="rule-bar" aria-hidden="true">
-              <span></span><span></span><span></span><span></span>
-            </div>
           </div>
           <div class="status-stack">
             <div class="status-card">
@@ -92,8 +81,8 @@
         <section class="insights-band" aria-label="50,435 input tournament insights">
           <div class="section-head">
             <div>
-              <p class="eyebrow">Funnel Dispatch</p>
-              <h3>Screen Insights <span class="ornament">⸻ ⸻</span></h3>
+              <p class="eyebrow">Funnel Analysis</p>
+              <h3>Screen Insights</h3>
             </div>
             <span id="insight-status">Loading insight summary</span>
           </div>
@@ -102,8 +91,8 @@
 
         <section class="results-panel" aria-label="Ranking results">
           <div class="panel-head">
-            <p class="eyebrow">The Ledger</p>
-            <h3>Ranked Names <span class="ornament">◆</span></h3>
+            <p class="eyebrow">Rankings</p>
+            <h3>Top 100 Finalists</h3>
           </div>
           <div class="toolbar">
             <div class="search-field">
@@ -117,8 +106,18 @@
               <kbd aria-hidden="true">/</kbd>
             </div>
             <div class="toolbar-actions">
+              <div class="pass-controls" aria-label="Tournament pass controls">
+                <label>
+                  <span>Pass</span>
+                  <select id="tournament-select" aria-label="Active tournament pass"></select>
+                </label>
+                <label>
+                  <span>Compare</span>
+                  <select id="compare-select" aria-label="Comparison tournament pass"></select>
+                </label>
+              </div>
               <div class="segmented" role="group" aria-label="Table density">
-                <button type="button" data-density="comfortable" class="active">Folio</button>
+                <button type="button" data-density="comfortable" class="active">Standard</button>
                 <button type="button" data-density="compact">Compact</button>
               </div>
               <select id="stage-select" aria-label="Result set"></select>
@@ -126,6 +125,7 @@
           </div>
 
           <div class="table-summary" id="table-summary"></div>
+          <div class="comparison-panel" id="comparison-panel" hidden></div>
 
           <div class="table-wrap">
             <table>
@@ -162,9 +162,9 @@
         </section>
 
         <footer class="colophon">
-          <span>◆ End of Folio</span>
-          <span>Ticker Helper · A research instrument</span>
-          <span id="footer-stamp">Set in Fraunces</span>
+          <span>Ticker Helper Research</span>
+          <span>For research and informational purposes only · Not investment advice</span>
+          <span id="footer-stamp">© 2026</span>
         </footer>
       </main>
     </div>
@@ -173,7 +173,7 @@
     <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Investment thesis">
       <div class="drawer-head">
         <div>
-          <p class="eyebrow">Investment Thesis · Filed</p>
+          <p class="eyebrow">Investment Thesis</p>
           <h3 class="drawer-title" id="drawer-title">Thesis</h3>
           <p class="drawer-subtitle" id="drawer-subtitle"></p>
         </div>
@@ -192,11 +192,13 @@
         "mode": "static",
         "apiBase": "./data",
         "defaultStage": "final_top100",
-        "stages": ["final_top100"],
+        "stages": [
+                "final_top100"
+        ],
         "showAudit": false,
         "publicMode": true
-      };
+};
     </script>
-    <script src="./assets/results_dashboard.js?v=20260516-2"></script>
+    <script src="./assets/results_dashboard.js?v=20260517a"></script>
   </body>
 </html>

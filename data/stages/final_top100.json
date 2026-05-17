@@ -1,7 +1,7 @@
 {
   "stage_id": "final_top100",
   "title": "Final Stack Rank",
-  "description": "DeepSeek V4 Pro chunk rankings over the Codex top 100, interleaved by local rank.",
+  "description": "DeepSeek V4 Pro final stack rank over the tournament top 100.",
   "csv_path": "",
   "markdown_path": "",
   "rows": [

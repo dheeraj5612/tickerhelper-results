@@ -2,8 +2,10 @@
   const config = {
     mode: "api",
     apiBase: "/api/results",
-    defaultStage: "final_top100",
-    stages: ["final_top100", "pro_top100", "flash_top1000"],
+        defaultTournament: "global-smallcap-20260517-v5-criteria-rerun",
+    compareTournament: "global-smallcap-20260516",
+    defaultStage: "pro_top100",
+    stages: ["pro_top100", "flash_top1000", "final_top100"],
     showAudit: true,
     publicMode: false,
     ...(window.RESULTS_DASHBOARD_CONFIG || {}),
@@ -18,8 +20,8 @@
     },
     pro_top100: {
       label: "Pro Tournament Top 100",
-      kicker: "1,000 thesis rerun",
-      description: "DeepSeek V4 Pro elimination tournament over the rerun top 1000 theses.",
+      kicker: "1,000 candidate narrowing",
+      description: "DeepSeek V4 Pro elimination tournament over the saved top 1000 candidate theses.",
     },
     flash_top1000: {
       label: "Flash Tournament Top 1000",
@@ -37,6 +39,8 @@
   })();
 
   const state = {
+    tournamentId: config.defaultTournament || "global-smallcap-20260516",
+    compareTournamentId: config.compareTournament || "",
     stage: config.defaultStage,
     rows: [],
     stageData: null,
@@ -69,7 +73,10 @@
     batchAudit: document.getElementById("batch-audit"),
     search: document.getElementById("search"),
     select: document.getElementById("stage-select"),
+    tournamentSelect: document.getElementById("tournament-select"),
+    compareSelect: document.getElementById("compare-select"),
     summary: document.getElementById("table-summary"),
+    comparison: document.getElementById("comparison-panel"),
     csvLink: document.getElementById("csv-link"),
     backdrop: document.getElementById("drawer-backdrop"),
     drawer: document.getElementById("drawer"),
@@ -86,6 +93,15 @@
     return `${config.apiBase.replace(/\/$/, "")}${path}`;
   }
 
+  function withQuery(path, params) {
+    const query = new URLSearchParams();
+    Object.entries(params || {}).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== "") query.set(key, value);
+    });
+    const suffix = query.toString();
+    return `${apiUrl(path)}${suffix ? "?" + suffix : ""}`;
+  }
+
   async function getJson(url) {
     const response = await fetch(url);
     if (!response.ok) throw new Error(await response.text());
@@ -96,8 +112,9 @@
     const overview =
       config.mode === "static"
         ? await getJson(apiUrl("/overview.json"))
-        : await getJson(apiUrl("/overview"));
+        : await getJson(withQuery("/overview", { tournament_id: state.tournamentId }));
     state.overview = overview;
+    mountTournamentControls(overview.available_tournaments || []);
     renderOverview(overview);
   }
 
@@ -109,7 +126,7 @@
     const data =
       config.mode === "static"
         ? await getJson(apiUrl(`/stages/${encodeURIComponent(stage)}.json`))
-        : await getJson(apiUrl(`/stage/${encodeURIComponent(stage)}`));
+        : await getJson(withQuery(`/stage/${encodeURIComponent(stage)}`, { tournament_id: state.tournamentId }));
 
     state.stageData = data;
     state.rows = data.rows || [];
@@ -118,6 +135,10 @@
     updateCsvLink(data);
     renderRows();
     renderRounds(data.rounds || []);
+    loadComparison(stage).catch(() => {
+      els.comparison.hidden = true;
+      els.comparison.innerHTML = "";
+    });
     els.batchAudit.classList.remove("open");
     els.batchAudit.innerHTML = "";
   }
@@ -141,6 +162,25 @@
     if (stages.length === 1) {
       els.select.hidden = true;
     }
+  }
+
+  function mountTournamentControls(tournaments) {
+    if (!els.tournamentSelect || !els.compareSelect) return;
+    const ids = tournaments.map((item) => item.tournament_id).filter(Boolean);
+    if (!ids.includes(state.tournamentId) && ids.length) state.tournamentId = ids[0];
+    if (state.compareTournamentId && !ids.includes(state.compareTournamentId)) {
+      state.compareTournamentId = ids.find((id) => id !== state.tournamentId) || "";
+    }
+    const options = ids
+      .map((id) => `<option value="${escapeAttr(id)}">${escapeHtml(tournamentLabel(id))}</option>`)
+      .join("");
+    els.tournamentSelect.innerHTML = options;
+    els.tournamentSelect.value = state.tournamentId;
+
+    els.compareSelect.innerHTML =
+      `<option value="">No comparison</option>` +
+      options;
+    els.compareSelect.value = state.compareTournamentId;
   }
 
   function setActiveStage(stage) {
@@ -398,7 +438,10 @@
     els.batchAudit.innerHTML = `<div class="thesis-meta">Loading ${escapeHtml(roundId)} batch decisions...</div>`;
     try {
       const data = await getJson(
-        apiUrl(`/stage/${encodeURIComponent(state.stage)}/${encodeURIComponent(roundId)}/batches?limit=100`)
+        withQuery(`/stage/${encodeURIComponent(state.stage)}/${encodeURIComponent(roundId)}/batches`, {
+          limit: 100,
+          tournament_id: state.tournamentId,
+        })
       );
       const batches = data.batches || [];
       els.batchAudit.innerHTML = `<div class="thesis-meta">Showing ${fmt.format(data.returned_batches || 0)} of ${fmt.format(data.total_batches || 0)} saved batch decisions for ${escapeHtml(roundId)}.</div>
@@ -420,6 +463,69 @@
     } catch (error) {
       els.batchAudit.innerHTML = `<div class="thesis-meta">Batch audit failed: ${escapeHtml(error)}</div>`;
     }
+  }
+
+  async function loadComparison(stage) {
+    if (config.mode === "static" || !state.compareTournamentId || state.compareTournamentId === state.tournamentId) {
+      els.comparison.hidden = true;
+      els.comparison.innerHTML = "";
+      return;
+    }
+    const data = await getJson(
+      withQuery(`/compare/${encodeURIComponent(stage)}`, {
+        base_tournament_id: state.compareTournamentId,
+        compare_tournament_id: state.tournamentId,
+        limit: 100,
+      })
+    );
+    renderComparison(data);
+  }
+
+  function renderComparison(data) {
+    const rows = data.rows || [];
+    els.comparison.hidden = false;
+    if (!data.compare_count) {
+      els.comparison.innerHTML = `<div class="comparison-head">
+        <strong>Pass Comparison</strong>
+        <span>${escapeHtml(tournamentLabel(data.compare_tournament_id))} has no saved rows yet for ${escapeHtml(stageLabel(data.stage_id))}.</span>
+      </div>`;
+      return;
+    }
+    els.comparison.innerHTML = `<div class="comparison-head">
+        <strong>Pass Comparison</strong>
+        <span>${escapeHtml(tournamentLabel(data.compare_tournament_id))} versus ${escapeHtml(tournamentLabel(data.base_tournament_id))}: ${fmt.format(data.retained_count || 0)} retained, ${fmt.format(data.added_count || 0)} added, ${fmt.format(data.removed_count || 0)} removed.</span>
+      </div>
+      <div class="comparison-table-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Old</th>
+              <th>New</th>
+              <th>Delta</th>
+              <th>Status</th>
+              <th>Old Read</th>
+              <th>New Read</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows
+              .map((row) => {
+                const delta = row.rank_delta == null ? "" : row.rank_delta > 0 ? `+${row.rank_delta}` : String(row.rank_delta);
+                return `<tr>
+                  <td><span class="ticker">${escapeHtml(row.ticker || "")}</span><span class="company-mini">${escapeHtml(row.company_name || "")}</span></td>
+                  <td>${escapeHtml(row.base_rank || "")}</td>
+                  <td>${escapeHtml(row.compare_rank || "")}</td>
+                  <td class="${Number(row.rank_delta) > 0 ? "rank-up" : Number(row.rank_delta) < 0 ? "rank-down" : ""}">${escapeHtml(delta)}</td>
+                  <td><span class="compare-status ${escapeAttr(row.status || "")}">${escapeHtml(row.status || "")}</span></td>
+                  <td>${escapeHtml(row.base_reason || "")}</td>
+                  <td>${escapeHtml(row.compare_reason || "")}</td>
+                </tr>`;
+              })
+              .join("")}
+          </tbody>
+        </table>
+      </div>`;
   }
 
   async function openThesis(row) {
@@ -508,6 +614,15 @@
     return stageMeta[stage]?.label || stage.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase());
   }
 
+  function tournamentLabel(tournamentId) {
+    if (!tournamentId) return "";
+    if (tournamentId === "global-smallcap-20260516") return "Pass 1";
+    if (tournamentId === "global-smallcap-20260517-v2-criteria") return "Pass 2";
+    if (tournamentId === "global-smallcap-20260517-v4-archetype") return "Recovered V4";
+    if (tournamentId === "global-smallcap-20260517-v5-criteria-rerun") return "Pass 2 V5";
+    return tournamentId;
+  }
+
   function pill(value) {
     return `<span class="summary-pill">${escapeHtml(value)}</span>`;
   }
@@ -571,6 +686,25 @@
   els.select.addEventListener("change", (event) => {
     loadStage(event.target.value).catch(renderStageError);
   });
+
+  if (els.tournamentSelect) {
+    els.tournamentSelect.addEventListener("change", (event) => {
+      state.tournamentId = event.target.value;
+      loadOverview().catch((error) => {
+        els.status.textContent = `Overview failed: ${error}`;
+      });
+      loadStage(state.stage).catch(renderStageError);
+    });
+  }
+
+  if (els.compareSelect) {
+    els.compareSelect.addEventListener("change", (event) => {
+      state.compareTournamentId = event.target.value;
+      loadComparison(state.stage).catch(() => {
+        els.comparison.hidden = true;
+      });
+    });
+  }
 
   els.sortButtons.forEach((button) => {
     button.addEventListener("click", () => {
