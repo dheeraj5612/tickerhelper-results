@@ -795,32 +795,48 @@ a { color: inherit; }
 
 .pass-controls {
   display: flex;
-  gap: 8px;
-  align-items: center;
+  gap: 10px;
+  align-items: stretch;
   flex-wrap: wrap;
 }
 .pass-controls label {
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   min-height: 46px;
-  padding: 0 10px;
+  padding: 0 14px 0 12px;
   border: 1px solid var(--rule);
   background: var(--paper);
+  cursor: pointer;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
 }
-.pass-controls span {
+.pass-controls label:hover { border-color: var(--ink); }
+.pass-controls label:focus-within {
+  border-color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.pass-controls label > span {
   font-family: "JetBrains Mono", monospace;
   font-size: 10px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink-mute);
+  padding-right: 10px;
+  border-right: 1px solid var(--rule-hair);
 }
 .pass-controls select {
-  max-width: 190px;
   min-height: 0;
   border: 0;
-  padding-left: 0;
+  padding: 0 22px 0 0;
   background-color: transparent;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  max-width: 220px;
 }
 
 .segmented {
@@ -866,11 +882,7 @@ a { color: inherit; }
 }
 
 .toolbar .pass-controls select {
-  min-height: 0;
-  border: 0;
-  padding: 0 22px 0 0;
-  background-color: transparent;
-  max-width: 190px;
+  /* inherit pass-controls select styling */
 }
 
 .table-summary {
@@ -969,16 +981,15 @@ a { color: inherit; }
 
 .table-wrap {
   border-top: 1px solid var(--rule);
-  overflow: auto;
-  max-height: calc(100vh - 360px);
-  min-height: 460px;
+  /* No internal scroll — let the table flow with the page and let the thead
+     stay sticky against the viewport. Single, body-level scrollbar. */
   background: var(--paper);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1080px;
+  table-layout: auto;
 }
 
 th, td {
@@ -991,8 +1002,8 @@ th, td {
 
 th {
   position: sticky;
-  top: 0;
-  z-index: 1;
+  top: 32px; /* sit below the fixed ticker tape */
+  z-index: 5;
   background: var(--ink);
   color: var(--paper);
   font-family: "JetBrains Mono", monospace;
@@ -1075,17 +1086,17 @@ tbody tr:focus-visible td {
 }
 
 .rank {
-  width: 92px;
+  width: 68px;
   font-family: "Fraunces", serif;
   font-variation-settings: "opsz" 144, "wght" 500;
-  font-size: 26px;
+  font-size: 24px;
   letter-spacing: -0.04em;
   color: var(--ink);
   line-height: 1;
   padding-top: 12px;
 }
 
-.ticker-cell { min-width: 160px; }
+.ticker-cell { min-width: 120px; white-space: nowrap; }
 .ticker {
   display: block;
   color: var(--ink);
@@ -1106,7 +1117,7 @@ tbody tr:focus-visible td {
   text-transform: uppercase;
 }
 
-.company-cell { min-width: 240px; max-width: 320px; }
+.company-cell { min-width: 180px; max-width: 260px; }
 .company-name {
   display: block;
   font-family: "Fraunces", serif;
@@ -1134,7 +1145,8 @@ tbody tr:focus-visible td {
 }
 
 .value-cell {
-  min-width: 150px;
+  min-width: 120px;
+  white-space: nowrap;
   text-align: right;
   font-family: "JetBrains Mono", monospace;
   font-weight: 500;
@@ -1143,17 +1155,22 @@ tbody tr:focus-visible td {
 }
 
 .reason {
-  min-width: 380px;
-  max-width: 760px;
+  /* Let the rationale claim the leftover horizontal room. width:100% on the
+     last cell of an auto-layout table tells the engine "give this column
+     whatever space the others didn't claim." */
+  width: 100%;
+  min-width: 320px;
   color: var(--ink-2);
-  line-height: 1.55;
+  line-height: 1.5;
   font-size: 13.5px;
   font-family: "Fraunces", serif;
   font-variation-settings: "opsz" 14, "wght" 360;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* Sticky-left columns removed: caused overlap with company column at full

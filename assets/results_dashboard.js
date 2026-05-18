@@ -167,6 +167,14 @@
   function mountTournamentControls(tournaments) {
     if (!els.tournamentSelect || !els.compareSelect) return;
     const ids = tournaments.map((item) => item.tournament_id).filter(Boolean);
+    const passControls = document.querySelector(".pass-controls");
+    // Hide the tournament switcher when there's nothing to switch between
+    // (static public export ships a single tournament).
+    if (ids.length < 2) {
+      if (passControls) passControls.hidden = true;
+      return;
+    }
+    if (passControls) passControls.hidden = false;
     if (!ids.includes(state.tournamentId) && ids.length) state.tournamentId = ids[0];
     if (state.compareTournamentId && !ids.includes(state.compareTournamentId)) {
       state.compareTournamentId = ids.find((id) => id !== state.tournamentId) || "";
