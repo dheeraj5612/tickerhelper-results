@@ -1,0 +1,29 @@
+{
+  "path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/KRX_120240/thesis.md",
+  "metadata_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/KRX_120240/metadata.json",
+  "markdown": "",
+  "html": "<p><strong>Daejung Chemicals &amp; Metals (KRX:120240)</strong></p>\n<p>Daejung is not the HBM nickel-sulfate story in the prior draft. The better thesis is quieter: a ignored Korean reagent and high-purity solvent company is showing real operating acceleration just as Korea’s R&amp;D, semiconductor, OLED, pharmaceutical, environmental testing, and precision-analysis demand are all moving in its direction.</p>\n<p>The market still labels it as a sleepy chemical reagent supplier. That label is partly fair, but stale. Daejung’s own materials show 5,000-plus reagent products, high-purity HPLC/LC-MS/EL solvents, electronic-material solvents, pharma raw materials, display material synthesis, and semiconductor material monomers/additives for I-line, KrF, ArF PR, BARC, SOC, and bump PR applications. The 2026 update that matters is the February report that Daejung has completed sample development for LCD/OLED color-filter materials, is supplying samples to customers, and is preparing pilot-stage work targeting possible 2027-2028 mass production. It also says electronic-grade solvent sales are already expanding.</p>\n<p>The numbers finally support the transition. 2025 revenue rose 17.1% to KRW 108.1bn, operating profit rose 31.9% to KRW 11.2bn, and net income rose 40.0% to KRW 13.5bn. Q1 2026 then stepped up again: revenue KRW 29.5bn, operating profit KRW 4.0bn, net income KRW 3.6bn, the best operating profit in the last five reported quarters. Rolling forward 2025 plus Q1 2026 gives roughly KRW 114bn revenue and KRW 14.4bn net income. At the May 18 price of KRW 13,750, with 7.19m shares, the market cap is about KRW 99bn. That is roughly 6.9x current run-rate earnings, around 0.54x book, with a 3.5% dividend yield.</p>\n<p>The net-cash balance is large, but it should not be the whole thesis. Third-party data shows about KRW 64bn of net cash, almost two-thirds of market cap. That makes EV multiples optically absurd, but Korean small-cap cash often deserves a haircut unless it is paid out or reinvested well. The real attraction is that the operating business itself is now cheap: if 2026 net income lands around KRW 15-16bn, the stock is only 6.2-6.6x earnings before giving credit for electronic solvents, color-filter materials, or any re-rating from better capital returns.</p>\n<p>The variant perception is simple. Retail discussion is thin and frustrated, focused on low liquidity and whether Daejung has any real semiconductor connection. FnGuide shows no analyst consensus and no listed fund ownership. Yet the company’s disclosed product set and 2026 press evidence say it is not just a commodity solvent distributor. It is a domestic precision-chemistry platform with exposure to research labs, pharma QC, environmental regulation, semiconductor-grade solvents, OLED/display materials, and customer-specific synthesis. That does not deserve a high-growth multiple yet, but it probably deserves more than 6-7x earnings and half of book when earnings are accelerating.</p>\n<p>The key catalyst is not a single contract announcement. It is continued proof that Q1 was not a one-off. If Q2 and Q3 show operating profit staying near KRW 3.5-4.0bn per quarter, investors will be looking at KRW 15bn-plus annual operating profit, low capex intensity, a still cash-heavy balance sheet, and a forward P/E closer to 6x. A 25% payout policy and the 2026 value-up plan help, but the company still needs to prove that “various shareholder return measures” means more than holding cash.</p>\n<p>Risks are real. The color-filter opportunity could remain pilot-stage science with no material revenue. The core reagent business can still be low-growth and working-capital heavy. Customer concentration and qualification cycles are opaque. Governance is family-controlled, liquidity is poor, and capital allocation could remain too conservative. The bear case is not bankruptcy; it is permanent neglect.</p>\n<p>Targets from the current KRW 13,750 price:</p>\n<p>Bear: KRW 9,500, down 31%. Earnings fade back toward KRW 10bn, new material projects fail to commercialize, and the market values it at 5x earnings plus a deep discount to idle cash.</p>\n<p>Base: KRW 23,000, up 67%. 2026 net income reaches KRW 15.5bn, the dividend remains around 3-4%, and the stock rerates to about 10.5x earnings as investors recognize a profitable precision-chemical supplier with electronic-grade solvent optionality.</p>\n<p>Bull: KRW 36,000, up 162%. Electronic solvents keep scaling, color-filter pilot work converts into visible 2027 orders, net income approaches KRW 20bn, and Daejung is valued at 12-13x earnings, still not heroic for a cash-rich Korean specialty materials supplier with improving growth.</p>",
+  "metadata": {
+    "attempts": 1,
+    "baseline_thesis_path": "results/thesis_runs/yahoo-global-flash-full/KRX_120240/thesis.md",
+    "company_name": "Daejung Chemicals & Metals Co., Ltd",
+    "country": "kr",
+    "created_at_utc": "2026-05-18T12:53:10.023769+00:00",
+    "currency": "KRW",
+    "elapsed_seconds": 309.377,
+    "exchange": "KRX",
+    "market_cap_usd": 63793200.02,
+    "model": "gpt-5.5",
+    "prior_thesis_path": "results/thesis_runs/deepseek-pro-medium-extension-v4-20260517/KRX_120240/thesis.md",
+    "prompt_chars": 15794,
+    "provider": "codex-cli",
+    "quality_issues": [],
+    "reasoning_effort": "xhigh",
+    "run_id": "codex-gpt55-xhigh-v5-top100-20260518",
+    "source_count": 1,
+    "status": "complete",
+    "thesis_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/KRX_120240/thesis.md",
+    "ticker": "KRX:120240",
+    "updated_at_utc": "2026-05-18T12:53:10.023850+00:00"
+  }
+}

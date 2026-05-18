@@ -1,0 +1,29 @@
+{
+  "path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/NATPLY.BO/thesis.md",
+  "metadata_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/NATPLY.BO/metadata.json",
+  "markdown": "",
+  "html": "<p><strong>National Plywood Industries: Distressed Revival Option</strong></p>\n<p>National Plywood is not the cash-rich FY2026 operating story in the prior draft. That thesis should be discarded. The live setup is much stranger and more speculative: NATPLY is a tiny BSE-only, GSM-tagged insolvency/revival stub with a current price of about ₹3.05, only 729 shares traded in the latest Livemint quote update, and a market cap of roughly ₹7.5 crore, not $76 million. The latest public operating numbers remain stale and weak: Dec. 2019 quarter revenue of ₹2.11 crore, operating loss of ₹0.61 crore, and PAT loss of ₹0.55 crore.</p>\n<p>The upside case is therefore not P/E rerating. It is legal and asset optionality. National Plywood has been in CIRP since Aug. 26, 2019, and the key forward event is whether a resolution plan is finally approved and implemented with existing listed equity retaining any meaningful stub. The <a href=\"https://ibbi.gov.in/claims/order-process/L20211AS1973PLC001856\">IBBI process page</a> shows active insolvency orders through 2025, and the Aug. 2025 NCLT order states that the resolution plan had already been approved by the CoC on June 11, 2024 and was pending final approval. That is the variant perception: the market is treating NATPLY like a dead penny stock, while the legal record shows a live resolution process with a successful resolution applicant and continuing court cleanup.</p>\n<p>The best bull case is that the old National brand, its listed shell, manufacturing history, distribution memory, possible licenses, and operating restart value are worth far more than the current ₹7.5 crore equity quote if legacy liabilities are compromised under IBC. The industry backdrop helps. Greenply’s Q4 FY26 results showed plywood revenue growth and improving margins, with Q4 plywood revenue up around 15% year over year and segment EBITDA margin above 10% in several market reports. That does not make National Plywood healthy, but it means the asset is being resolved into a good demand cycle rather than a dead one.</p>\n<p>The January 2026 NCLT litigation around the plan shows the remaining tension: challengers attacked disclosures and feasibility, while the broader IBC principle is that procedural disagreements should not derail a CoC-approved plan unless statutory defects exist. The 2025 employee-claim order was constructive for finality: NCLT dismissed a delayed claim and noted that the plan already provided for wages, PF, and ESI. Eastern Estates litigation also clarified that a successful resolution applicant only inherits the company’s actual property rights, not expanded rights. That creates some execution risk, but it also narrows the path toward a clean final order.</p>\n<p>The forward valuation has to be probability-weighted. At ₹3.05, the market is paying about ₹7.5 crore for an option. If the old equity is canceled, value is zero. If it survives as a tiny diluted stub, fair value may only be ₹4 to ₹6. If old shareholders retain a meaningful minority interest in a cleaned-up listed company with a recognizable plywood brand, even a ₹50 to ₹100 crore post-resolution equity value could put the stock multiples above today, depending on dilution. The unknown share treatment is the whole trade.</p>\n<p>Retail context is almost nonexistent, which is good for torque but bad for liquidity. Sharekhan showed no recent news records and tiny community participation. Trendlyne’s tiny poll skewed bearish. This is not a crowded turnaround. It is an ignored legal-option microcap where one NCLT/BSE disclosure could matter more than a year of historical financials.</p>\n<p>The main risk is brutal: IBC plans often wipe out or heavily dilute public shareholders. National Plywood also has stale filings, negative historical book value, old operating losses, labor and property disputes, GSM surveillance, and almost no liquidity. There is no downside protection from earnings or cash. The only real protection is that the current equity value is already microscopic.</p>\n<p>Bear target: ₹0.50, down 84%. This assumes final resolution wipes out or nearly wipes out existing shareholders, or liquidation leaves no residual equity.</p>\n<p>Base target: ₹5.00, up 64%. This assumes final approval of the CoC plan, legacy claims remain capped, old equity survives as a modest listed stub, but dilution prevents a full operating-company rerating.</p>\n<p>Bull target: ₹12.00 to ₹15.00, up 293% to 392%. This assumes the plan is approved and implemented, existing shareholders retain meaningful participation, filings resume, and the market capitalizes National Plywood as a cleaned-up plywood revival vehicle rather than a dead CIRP name.</p>",
+  "metadata": {
+    "attempts": 1,
+    "baseline_thesis_path": "results/thesis_runs/yahoo-global-flash-full/NATPLY.BO/thesis.md",
+    "company_name": "NATIONAL PLYWOOD INDUSTRIES LT",
+    "country": "in",
+    "created_at_utc": "2026-05-18T13:16:20.290180+00:00",
+    "currency": "INR",
+    "elapsed_seconds": 241.096,
+    "exchange": "BSE",
+    "market_cap_usd": 76638952.0,
+    "model": "gpt-5.5",
+    "prior_thesis_path": "results/thesis_runs/deepseek-pro-medium-extension-v4-20260517/NATPLY.BO/thesis.md",
+    "prompt_chars": 17485,
+    "provider": "codex-cli",
+    "quality_issues": [],
+    "reasoning_effort": "xhigh",
+    "run_id": "codex-gpt55-xhigh-v5-top100-20260518",
+    "source_count": 1,
+    "status": "complete",
+    "thesis_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/NATPLY.BO/thesis.md",
+    "ticker": "NATPLY.BO",
+    "updated_at_utc": "2026-05-18T13:16:20.290249+00:00"
+  }
+}

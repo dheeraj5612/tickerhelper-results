@@ -1,0 +1,29 @@
+{
+  "path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/SA_POMO3/thesis.md",
+  "metadata_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/SA_POMO3/metadata.json",
+  "markdown": "",
+  "html": "<p>Marcopolo is not a “2x earnings” hallucination, but it is still cheap. At the live POMO3 quote of R$5.94, the company is worth about R$7.5 billion, or roughly US$1.5 billion, using the full capital base rather than only the common-share float. That is about 6x trailing earnings and closer to 5x my 2026-2027 earnings power estimate, for a business earning ROE above 30%, paying real cash dividends, and entering 2H26 with far better order visibility than the market feared.</p>\n<p>The variant setup is the reversal of the February scare. Investors sold Marcopolo when the school-bus tender was canceled, since Caminho da Escola was roughly 10% of expected 2026 volume. But the program came back, and Marcopolo qualified to supply up to 7,210 units, with impact expected in 2H26 and 2027. That flips the story from “public-program hole” to “backlog visibility into a soft-rate cycle.” The market is still trading the stock like a domestic cyclical whose best year was 2025.</p>\n<p>Q1 looked optically mixed, which is why the opportunity still exists. Production fell 9%, revenue slipped 1.3%, and Mexico was weak. Yet EBITDA rose 16.3% to R$304.8 million and net income rose 8.8% to R$264.6 million. Adjusting out the R$45 million NFI one-off, this is not explosive growth yet, but it proves the floor is high: mix, cost control, Australia, parts, Moneo, and equity income are absorbing volume weakness. Marcopolo’s own presentation says Brazil’s bus fleet average age has risen from 8 years in 2012 to 11 years and 4 months in 2025, which supports a multi-year replacement cycle rather than a one-quarter tender trade.</p>\n<p>The balance sheet is misunderstood. Screeners show consolidated net debt because Banco Moneo is consolidated, but the industrial business had only R$251 million of net debt, about 0.2x EBITDA, while Moneo’s funding is largely matched against customer receivables. This is not a net-cash liquidation story, and the prior thesis was wrong there. It is a high-return industrial plus captive finance story where leverage optics obscure a very modest industrial risk profile.</p>\n<p>The second mislabel is geography. Marcopolo is no longer just a Brazilian bus body assembler waiting for local municipalities. In 2025, international operations plus exports were 45.4% of revenue, up from 36.3% in 2024. Management is explicitly leaning into Latin America, citing Argentina, Peru, Bolivia, and Paraguay, while Volgren in Australia is running ahead of plan. The weaker part of the thesis is that a stronger real hurts exports, and management flagged dollar depreciation as a headwind, but the business is now diversified enough that Brazil school buses, Australian profitability, Latin American exports, Moneo, and NFI recovery can all matter at once.</p>\n<p>The retail/social context is useful: Brazilian retail chatter mostly frames POMO as a cheap dividend name or asks why a “cheap” stock keeps falling, with some preference for POMO3 because it is the voting common. That is not a crowded global small-cap compounder narrative. The stock is known locally, but the debate is still about dividend dates, SELIC, and government tenders, not about 2027 normalized earnings power.</p>\n<p>My base case is R$1.20 to R$1.30 of 2027 EPS on R$9.5 to R$10.0 billion of revenue, 16.5% to 17.5% EBITDA margin, a normalized NFI contribution, and fuller Caminho da Escola deliveries. Put 7.5x earnings on R$1.25 and the stock is worth about R$9.50. That is not heroic for a company with this ROE, governance level, market position, and dividend capacity.</p>\n<p>The biggest risks are a fresh delay in public-program conversion, a Brazil rate cycle that stays tighter for longer, real appreciation that compresses exports, a Mexico/Argentina slump that spreads, or credit deterioration at Moneo. POMO3 liquidity is also lower than POMO4, so the common can carry a practical trading discount despite better voting rights.</p>\n<p>Bear target: R$4.50, or about US$0.89, down 24%. This assumes earnings fall toward R$0.75 per share, Caminho deliveries slip, and the market refuses to pay more than 6x depressed earnings.</p>\n<p>Base target: R$9.50, or about US$1.87, up 60%. This assumes R$1.20 to R$1.30 forward EPS and a modest rerating to 7.5x as the 2H26 and 2027 backlog becomes visible.</p>\n<p>Bull target: R$12.50, or about US$2.47, up 110%. This assumes R$1.45 to R$1.55 EPS from stronger Brazil replacement demand, full school-bus execution, Australia and NFI upside, and an 8x to 8.5x multiple. Current price: R$5.94, about US$1.17.</p>",
+  "metadata": {
+    "attempts": 1,
+    "baseline_thesis_path": "results/thesis_runs/yahoo-global-flash-full/SA_POMO3/thesis.md",
+    "company_name": "Marcopolo S.A",
+    "country": "Brazil",
+    "created_at_utc": "2026-05-18T14:15:28.623301+00:00",
+    "currency": "USD",
+    "elapsed_seconds": 193.44,
+    "exchange": "SA",
+    "market_cap_usd": 526480000.0,
+    "model": "gpt-5.5",
+    "prior_thesis_path": "results/thesis_runs/deepseek-pro-medium-extension-v4-20260517/SA_POMO3/thesis.md",
+    "prompt_chars": 17242,
+    "provider": "codex-cli",
+    "quality_issues": [],
+    "reasoning_effort": "xhigh",
+    "run_id": "codex-gpt55-xhigh-v5-top100-20260518",
+    "source_count": 1,
+    "status": "complete",
+    "thesis_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/SA_POMO3/thesis.md",
+    "ticker": "SA:POMO3",
+    "updated_at_utc": "2026-05-18T14:15:28.623387+00:00"
+  }
+}

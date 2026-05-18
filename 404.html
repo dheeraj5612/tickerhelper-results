@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Small-Cap Tournament — Ticker Helper Research</title>
+    <title>Signal Ledger - Global Small-Cap Top 100</title>
     <link rel="icon" href="data:," />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,18 +11,18 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./assets/results_dashboard.css?v=20260518a" />
+    <link rel="stylesheet" href="./assets/results_dashboard.css?v=20260518c" />
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>
 
     <div class="tape" aria-hidden="true">
       <div class="tape-track" id="tape-track">
-        <span class="tape-item">Ticker Helper · Global Small-Cap Tournament · 2026</span>
-        <span class="tape-item">50,435 inputs screened</span>
-        <span class="tape-item">1,000 Pro theses</span>
-        <span class="tape-item">100 finalists ranked</span>
-        <span class="tape-item">DeepSeek V4 Flash → Pro elimination</span>
+        <span class="tape-item">Signal Ledger · Global Small-Cap Top 100 · 2026</span>
+        <span class="tape-item">Global public-equity universe</span>
+        <span class="tape-item">V4 Pro thesis coverage</span>
+        <span class="tape-item">Codex finalist theses</span>
+        <span class="tape-item">Final top 100 stack rank</span>
       </div>
     </div>
 
@@ -30,12 +30,12 @@
       <aside class="rail" aria-label="Dashboard navigation">
         <div class="brand">
           <div class="brand-mark" aria-hidden="true">
-            <span class="brand-glyph">TH</span>
+              <span class="brand-glyph">SL</span>
             <span class="brand-rule"></span>
           </div>
           <div class="brand-text">
-            <p class="eyebrow">Research Report</p>
-            <h1>Small-Cap<br />Tournament</h1>
+            <p class="eyebrow">Research Ledger</p>
+            <h1>Signal<br />Ledger</h1>
           </div>
         </div>
 
@@ -44,6 +44,7 @@
 
         <div class="rail-section">
           <p class="rail-divider"><span>Methodology</span></p>
+          <a class="method-link" href="./methodology.html">Read Methodology</a>
           <div class="audit-list" id="audit-list">
             <div class="audit-item">
               <span class="audit-dot"></span>
@@ -57,7 +58,7 @@
         <header class="page-head">
           <div class="title-block">
             <p class="masthead-meta">
-              <span>Global Small-Cap Research</span>
+              <span>Signal Ledger Research</span>
               <span class="dot">●</span>
               <span id="report-date">Updated 2026</span>
             </p>
@@ -162,7 +163,7 @@
         </section>
 
         <footer class="colophon">
-          <span>Ticker Helper Research</span>
+          <span>Signal Ledger</span>
           <span>For research and informational purposes only · Not investment advice</span>
           <span id="footer-stamp">© 2026</span>
         </footer>
@@ -191,6 +192,7 @@
       window.RESULTS_DASHBOARD_CONFIG = {
         "mode": "static",
         "apiBase": "./data",
+        "defaultTournament": "global-smallcap-20260517-v5-criteria-rerun",
         "defaultStage": "final_top100",
         "stages": [
                 "final_top100"
@@ -199,6 +201,6 @@
         "publicMode": true
 };
     </script>
-    <script src="./assets/results_dashboard.js?v=20260518a"></script>
+    <script src="./assets/results_dashboard.js?v=20260518c"></script>
   </body>
 </html>

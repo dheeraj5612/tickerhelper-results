@@ -1,0 +1,29 @@
+{
+  "path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/TWSE_8103/thesis.md",
+  "metadata_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/TWSE_8103/metadata.json",
+  "markdown": "",
+  "html": "<p>Cvilux is no longer the sleepy laptop connector value stock described in the old thesis. It is now a small-cap AI power infrastructure supplier, and the right question is whether the market is paying too much for a real transition or still too little for a company whose earnings power is moving faster than the stock.</p>\n<p>At TWD 102 on May 18, the equity value is about TWD 8.0 billion, or roughly USD 256 million. That looks optically expensive versus the old net-net story: 2.1x book, 22x trailing EPS, no longer a 0.6x book bargain. But the trailing label is stale. Cvilux just reported Q1 2026 revenue of TWD 910 million, gross margin of 38.0%, operating margin of 14.2%, EPS of TWD 1.17, and April revenue of TWD 372 million, up 21.6% year over year. The company’s latest run-rate says the business is breaking out, not merely mean-reverting.</p>\n<p>The variant perception is specific: Cvilux is not mainly an “AI high-speed signal connector” story. It is an AI server power connector story. Management has said demand is strong in PSU and BBU board-end connectors, customers are still raising orders, and the 800V HVDC and 110kW AI rack power transition increases connector content. Server and networking was already 36% of sales in Jan-Nov 2025 in the company’s December deck, and local reporting now points to that mix rising toward 45-50% in 2026, with AI power alone potentially moving from about 18% of sales in 2025 toward 30%.</p>\n<p>That matters because the legacy laptop mix is shrinking in relevance. In the company deck, server/networking rose from 22% of sales in 2020 to 36% in 2025, while laptop fell from 37% to 23%. This is the wrong-label setup: investors who still view Cvilux as a consumer/laptop connector maker miss that incremental growth is coming from high-current power architecture, AI server racks, new energy, and potentially robotics flex/FFC applications.</p>\n<p>The best evidence is not promotional language. It is the numbers. 2025 revenue was only TWD 3.36 billion, so a few hundred million TWD of incremental AI power revenue is large. FY2025 operating income was TWD 449 million. If 2026 revenue reaches TWD 4.2-4.5 billion, gross margin holds near 38-40%, and operating leverage works, EPS of TWD 6.5-7.2 is credible. At the current price, that is only about 14-16x 2026 earnings for a company with net cash of roughly TWD 2.1 billion, a proposed TWD 2.8 dividend, tight capacity, and a customer-driven expansion cycle.</p>\n<p>The balance sheet also matters, but not in the old “cash floor” way. Net cash is real, yet the more important signal is that Cvilux is deploying capital into the power ecosystem. The 15% tender offer for 全宇昕, a power semiconductor designer, at a total consideration near TWD 540 million is not transformative control, but it shows management is trying to deepen the power electronics platform rather than simply hoard cash.</p>\n<p>The main risk is that the stock has become crowded locally. It was put on attention-stock disclosure, retail/media coverage has picked up, and the share price is still up more than 100% over one year despite pulling back from the May high. If AI power orders are double ordering, if PSU/BBU demand pauses, or if capacity expansion arrives just as customers digest inventory, the market will not value this at a growth multiple. The old book-value floor is weaker now because the stock already trades above 2x book.</p>\n<p>Still, the asymmetry remains attractive after the pullback. This is a TWD 8 billion market-cap company with a small revenue base, a fast-rising AI power mix, strong gross margins, net cash, and a credible path from TWD 3.92 FY2025 EPS to TWD 6.5-7.0 in 2026. The thesis is not that Cvilux is undiscovered in Taiwan. It is that global investors have barely noticed a power-connector supplier sitting inside the AI rack power upgrade cycle, and the forward multiple is not demanding if earnings continue to step up.</p>\n<p>Bear case: TWD 72, down 29%. AI power proves partly inventory-driven, 2026 EPS stalls around TWD 4.5-5.0, and the stock de-rates to 14-15x earnings or about 1.5x book.</p>\n<p>Base case: TWD 150, up 47%. AI power grows at least 50%, server/networking approaches half of sales, 2026 EPS reaches about TWD 6.8-7.2, and the market assigns 20-21x earnings for a visible AI power component supplier with net cash.</p>\n<p>Bull case: TWD 220, up 116%. AI rack power architecture creates a multi-year content cycle, PSU/BBU and ASIC server orders keep expanding into 2027, new energy and robotics add a second leg, EPS power reaches TWD 9-10, and the stock trades at 22x forward earnings.</p>",
+  "metadata": {
+    "attempts": 1,
+    "baseline_thesis_path": "results/thesis_runs/yahoo-global-flash-full/TWSE_8103/thesis.md",
+    "company_name": "Cvilux Corporation",
+    "country": "tw",
+    "created_at_utc": "2026-05-18T12:48:28.385247+00:00",
+    "currency": "TWD",
+    "elapsed_seconds": 218.046,
+    "exchange": "TWSE",
+    "market_cap_usd": 255987876.26,
+    "model": "gpt-5.5",
+    "prior_thesis_path": "results/thesis_runs/deepseek-pro-medium-extension-v4-20260517/TWSE_8103/thesis.md",
+    "prompt_chars": 16914,
+    "provider": "codex-cli",
+    "quality_issues": [],
+    "reasoning_effort": "xhigh",
+    "run_id": "codex-gpt55-xhigh-v5-top100-20260518",
+    "source_count": 1,
+    "status": "complete",
+    "thesis_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/TWSE_8103/thesis.md",
+    "ticker": "TWSE:8103",
+    "updated_at_utc": "2026-05-18T12:48:28.385343+00:00"
+  }
+}

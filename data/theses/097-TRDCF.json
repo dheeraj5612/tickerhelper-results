@@ -1,0 +1,29 @@
+{
+  "path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/TRDCF/thesis.md",
+  "metadata_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/TRDCF/metadata.json",
+  "markdown": "",
+  "html": "<p>TRDCF is not Torex Gold. It is Terra Drone Corporation, a Japanese drone and air-mobility company whose primary listing is TSE Growth 278A. The old gold-miner thesis should be discarded.</p>\n<p>The stock is no longer optically cheap. The primary share closed May 18, 2026 at ¥12,750, roughly $81 per TRDCF-equivalent share using USD/JPY around 157. With about 9.7 million shares, the market cap is roughly ¥124 billion, or about $790 million. Net cash is only about ¥1.8 billion, so this is not a cash-backed low-EV setup. It is a high-multiple option on Terra Drone becoming a real defense drone and UTM infrastructure company.</p>\n<p>The variant perception is that the market still has no clean label for Terra Drone. The legacy business is industrial drone services, surveying, inspection, agriculture, and UAS Traffic Management. That business did ¥4.8 billion of FY January 2026 revenue, lost money, burned cash, and guided FY January 2027 revenue of only about ¥5.1 billion with another operating loss. On that alone, the stock is expensive.</p>\n<p>The reason to care is the business transition. In March, Terra Drone formally entered defense, announced a U.S. “Terra Defense” plan, invested in Ukraine’s Amazing Drones, launched the Terra A1 interceptor, began Ukraine deployment, then reported operational validation against long-range drone threats. The company frames the economics clearly: low-cost drones require low-cost interception, not million-dollar missile math. It then added WinnyLab for a longer-range Terra A2 layer and won a ¥115.4 million Japan ATLA order for 300 domestically produced training UAVs. Small contract, large signal.</p>\n<p>The Saudi pipeline surveillance win also matters because it shows Terra Drone’s non-defense industrial inspection channel can become security infrastructure. Energy assets, ports, pipelines, refineries, and military bases are converging into the same demand pool: persistent autonomous sensing, inspection, airspace management, and counter-UAS protection. Terra Drone already has global industrial references and Unifly UTM infrastructure. If defense and infrastructure customers start buying integrated drone operations rather than one-off survey jobs, the revenue base can change shape quickly.</p>\n<p>The forward valuation only works if revenue accelerates hard. A credible base case needs FY2028-FY2029 revenue moving toward ¥14-16 billion, with defense orders becoming material and UTM/inspection stabilizing the base. A true bull case needs defense and critical-infrastructure security revenue alone reaching ¥20 billion-plus. That sounds aggressive against current revenue, but the drone defense market can scale faster than normal enterprise software because procurement urgency is real, Ukraine has compressed development cycles, and Japan is explicitly building unmanned defense capability.</p>\n<p>The biggest risk is that the stock has already priced in a lot of this before the income statement has caught up. FY2026 revenue grew only 7.8%, operating loss widened, free cash flow was negative, cash fell, and FY2027 guidance is still loss-making. There are also governance and execution haircuts from corrected filings, the continued shareholder meeting process, auditor changes, and the overseas subsidiary fire impact. Retail enthusiasm is obvious in Japanese margin data, including a very high long margin balance, which can amplify both squeezes and air pockets.</p>\n<p>My view: Terra Drone is not a cheap stock today, but it is a legitimate high-torque transition story. The market is paying for a defense-drone platform before the contracts are large. That is dangerous, but not irrational if the company converts Ukraine validation, Japan domestic procurement, Saudi energy security, and U.S./NATO channel-building into repeat orders.</p>\n<p>Targets, using the May 18 primary close of ¥12,750, about $81:</p>\n<p>Bear: ¥4,500, about $29, down 65%. Defense remains mostly press releases and small pilots, the core business keeps burning cash, and the stock compresses toward a still-generous high-single-digit sales multiple.</p>\n<p>Base: ¥16,000, about $102, up 25%. Defense orders become visibly repeatable, FY2028 revenue visibility moves above ¥14 billion, losses narrow, and the market keeps valuing Terra Drone as a scarce public drone-defense pure play.</p>\n<p>Bull: ¥32,000, about $204, up 151%. Terra Drone becomes a recognized Japan/Ukraine/U.S.-aligned supplier of low-cost interceptor drones and infrastructure surveillance systems, with revenue scaling toward ¥25-30 billion and a credible path to operating profit.</p>",
+  "metadata": {
+    "attempts": 1,
+    "baseline_thesis_path": "results/thesis_runs/yahoo-global-flash-full/TRDCF/thesis.md",
+    "company_name": null,
+    "country": "us",
+    "created_at_utc": "2026-05-18T13:30:31.358769+00:00",
+    "currency": "USD",
+    "elapsed_seconds": 237.77,
+    "exchange": "OTC Markets OTCPK",
+    "market_cap_usd": 652935104.0,
+    "model": "gpt-5.5",
+    "prior_thesis_path": "results/thesis_runs/deepseek-pro-medium-10k-v4-20260517/TRDCF/thesis.md",
+    "prompt_chars": 14943,
+    "provider": "codex-cli",
+    "quality_issues": [],
+    "reasoning_effort": "xhigh",
+    "run_id": "codex-gpt55-xhigh-v5-top100-20260518",
+    "source_count": 1,
+    "status": "complete",
+    "thesis_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/TRDCF/thesis.md",
+    "ticker": "TRDCF",
+    "updated_at_utc": "2026-05-18T13:30:31.358826+00:00"
+  }
+}

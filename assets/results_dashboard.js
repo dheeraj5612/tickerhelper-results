@@ -200,23 +200,32 @@
 
   function renderOverview(overview) {
     const stages = overview.stages || {};
-    const flash = stages.flash_top1000 || {};
-    const pro = stages.pro_top100 || {};
+    const firstPass = stages.pro_top10000 || stages.flash_top1000 || {};
+    const finalPass = stages.pro_top100 || {};
     const compressed = overview.compressed_manifest || {};
     const compressedBytes = compressed.compressed_size_bytes || compressed.compressed_bytes;
     const compressedSize = compressedBytes ? `${(compressedBytes / 1024 / 1024).toFixed(1)} MiB` : "available";
     const publicScope = overview.public_scope || {};
+    const universeCount =
+      publicScope.screen_inputs ||
+      firstPass.input_count ||
+      publicScope.flash_inputs ||
+      0;
+    const thesisCount =
+      publicScope.v4_pro_thesis_count ||
+      publicScope.pro_thesis_count ||
+      0;
 
     els.metrics.innerHTML = [
-      metric("Flash Inputs", fmt.format(flash.input_count || publicScope.flash_inputs || 0), "50,435-input global screen", "blue"),
-      metric("Pro Theses", fmt.format(publicScope.pro_thesis_count || 1000), "Rerun complete, zero failed", "green"),
-      metric("Final Rows", fmt.format(overview.final_rank_rows || publicScope.final_rank_rows || 0), "Stack-ranked with rationale", "amber"),
+      metric("Universe", fmt.format(universeCount), "Global listed-equity screen", "blue"),
+      metric("Thesis Corpus", thesisCount ? fmt.format(thesisCount) : "Complete", "V4 Pro coverage, Codex finalists", "green"),
+      metric("Final Rows", fmt.format(overview.final_rank_rows || publicScope.final_rank_rows || 0), "Codex stack-ranked with rationale", "amber"),
       metric("Public Scope", config.publicMode ? "Top 100" : "Full Local", config.publicMode ? "Trimmed static export" : `Archive ${compressedSize}`, "rose"),
     ].join("");
 
     els.status.textContent = config.publicMode
-      ? `${overview.tournament_id || "global-smallcap-20260516"}; public top-100 export`
-      : `${overview.tournament_id || "global-smallcap-20260516"}; archive ${compressedSize}`;
+      ? `${overview.tournament_id || "latest"}; public top-100 export`
+      : `${overview.tournament_id || "latest"}; archive ${compressedSize}`;
 
     renderAuditList(overview);
     renderInsights(overview);
@@ -235,12 +244,20 @@
   function renderAuditList(overview) {
     const publicScope = overview.public_scope || {};
     const stages = overview.stages || {};
-    const flash = stages.flash_top1000 || {};
-    const pro = stages.pro_top100 || {};
+    const firstPass = stages.pro_top10000 || stages.flash_top1000 || {};
+    const finalPass = stages.pro_top100 || {};
+    const universeCount =
+      publicScope.screen_inputs ||
+      firstPass.input_count ||
+      publicScope.flash_inputs ||
+      0;
+    const firstFinalCount = firstPass.final_count || publicScope.first_pass_finalists || 10000;
+    const top100InputCount = finalPass.input_count || publicScope.second_pass_inputs || firstFinalCount;
     const items = [
-      `${fmt.format(flash.input_count || publicScope.flash_inputs || 50435)} Flash inputs screened`,
-      `${fmt.format(pro.input_count || publicScope.pro_inputs || 1000)} Pro inputs to top 100`,
-      `${fmt.format(publicScope.codex_top100_count || overview.final_rank_rows || 100)} Codex top-100 analyses`,
+      `${fmt.format(universeCount)} investable names screened`,
+      `${fmt.format(firstFinalCount)} V4 Pro high-reasoning semifinalists`,
+      `${fmt.format(top100InputCount)} V4 Pro max-reasoning inputs to top 100`,
+      `${fmt.format(publicScope.codex_top100_count || overview.final_rank_rows || 100)} fresh Codex finalist theses`,
       config.publicMode
         ? "Public export limited to final top 100"
         : `${fmt.format(publicScope.batch_decisions || 7280)} saved batch JSON decisions`,
@@ -252,47 +269,46 @@
 
   function renderInsights(overview) {
     const insights = overview.tournament_insights || {};
-    const flash = insights.flash || {};
-    const final = insights.final || {};
-    const migration = insights.migration || {};
     const audit = insights.audit || {};
-    const flashRounds = insights.flash_rounds || [];
-    const flashCountries = flash.top_countries || [];
-    const finalCountries = final.top_countries || [];
-    const capBands = flash.market_cap_bands || {};
-    const flashBatchCount = audit.flash_batch_decisions || 7150;
-    const proBatchCount = audit.pro_batch_decisions || 130;
+    const stages = overview.stages || {};
+    const firstPass = stages.pro_top10000 || stages.flash_top1000 || {};
+    const finalPass = stages.pro_top100 || {};
+    const publicScope = overview.public_scope || {};
+    const firstRounds = insights.pro_top10000_rounds || insights.flash_rounds || [];
+    const screenInputs = publicScope.screen_inputs || firstPass.input_count || publicScope.flash_inputs || 0;
+    const firstFinal = firstPass.final_count || publicScope.first_pass_finalists || 10000;
+    const finalInputs = finalPass.input_count || publicScope.second_pass_inputs || firstFinal;
+    const finalRows = overview.final_rank_rows || publicScope.final_rank_rows || 100;
+    const firstBatchCount = audit.pro_top10000_batch_decisions || audit.flash_batch_decisions || publicScope.first_pass_batches || 0;
+    const secondBatchCount = audit.pro_batch_decisions || publicScope.second_pass_batches || 0;
 
-    els.insightStatus.textContent = `${fmt.format(flashBatchCount)} Flash batches + ${fmt.format(proBatchCount)} Pro batches`;
+    els.insightStatus.textContent = `${fmt.format(firstBatchCount + secondBatchCount)} saved model decisions`;
     els.insights.innerHTML = [
       `<div class="insight-card">
         <strong>Funnel Compression</strong>
-        <p>Flash cut ${fmt.format(50435)} screened names to ${fmt.format(1000)} finalists, then Pro cut the thesis rerun to 100.</p>
-        ${renderFunnelBars(flashRounds)}
+        <p>The broad screen was compressed from ${fmt.format(screenInputs)} names to ${fmt.format(firstFinal)}, then to ${fmt.format(finalRows)} finalists.</p>
+        ${renderFunnelBars(firstRounds, screenInputs, firstFinal)}
       </div>`,
       `<div class="insight-card">
-        <strong>Not Just The Flash Top 100</strong>
-        <p>Only ${fmt.format(migration.final_in_flash_top100 || 0)} final names were already in the Flash top 100. Median final-name Flash rank was ${fmt.format(migration.final_flash_rank_median || 0)}, so the Pro pass materially reshuffled the screen.</p>
+        <strong>Higher-Reasoning Finish</strong>
+        <p>The large pass uses V4 Pro high reasoning; the ${fmt.format(finalInputs)} to 100 pass uses max reasoning before Codex writes fresh finalist theses.</p>
       </div>`,
       `<div class="insight-card">
-        <strong>Market-Cap Sweet Spot</strong>
-        <p>Flash finalists clustered below $150M: ${fmt.format((capBands["<$50M"] || 0) + (capBands["$50-150M"] || 0))} of 1,000. Final median cap was ${formatMoney(final.market_cap_median)}.</p>
+        <strong>Final Thesis Refresh</strong>
+        <p>The top 100 list is judged from newly written Codex finalist theses when available, with V4 Pro theses as the fallback research layer.</p>
       </div>`,
       `<div class="insight-card">
-        <strong>Geography Held Up</strong>
-        <p>Flash leaders: ${formatLeaders(flashCountries)}. Final top-100 leaders: ${formatLeaders(finalCountries)}.</p>
+        <strong>Research Queue</strong>
+        <p>This is a ranked research queue for deeper review, not a recommendation service or a substitute for current diligence.</p>
       </div>`,
     ].join("");
   }
 
-  function renderFunnelBars(rounds) {
+  function renderFunnelBars(rounds, screenInputs, firstFinal) {
     const usable = rounds.length
       ? rounds
       : [
-          { round_index: 1, input_count: 50435, winner_count: 15132 },
-          { round_index: 2, input_count: 15132, winner_count: 4541 },
-          { round_index: 3, input_count: 4541, winner_count: 1363 },
-          { round_index: 4, input_count: 1363, winner_count: 1000 },
+          { round_index: 1, input_count: screenInputs || 0, winner_count: firstFinal || 0 },
         ];
     const maxInput = Math.max(...usable.map((round) => Number(round.input_count) || 0), 1);
     return `<div class="funnel-bars">

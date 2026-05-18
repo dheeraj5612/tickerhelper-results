@@ -1,0 +1,29 @@
+{
+  "path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/OT7.F/thesis.md",
+  "metadata_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/OT7.F/metadata.json",
+  "markdown": "",
+  "html": "<p><strong>Ontex Group N.V. Thesis</strong></p>\n<p>Ontex is a messy but real equity-torque situation: a refocused European and North American private-label hygiene manufacturer being priced like a covenant problem, while the forward business only needs modest stabilization to justify a much higher equity value.</p>\n<p>The prior easy bull case was too aggressive. Ontex did not already become a clean 30% to 40% free-cash-flow-yield machine. FY2025 free cash flow was still negative at €25 million, capex was €81 million, and Q1 2026 was soft. But the stock has collapsed to about €2.64, or roughly €212 million of equity value, against an enterprise value near €760 million. On management’s still-maintained 2026 guidance for about 10% adjusted EBITDA growth, the stock is around 4x EV/EBITDA and roughly 5x to 6x forward earnings.</p>\n<p>The misunderstanding is that Ontex is being treated as a broken diaper commodity business. The company is now more interesting than that. Adult care has become its largest category, around 46% of 2025 revenue, and it is the structurally better business: demographic demand, healthcare/institutional use, retailer-brand penetration, and product innovation. Baby care remains the weak link, with Q1 2026 baby volumes down 11%, but adult care volumes still grew and North American retailer-brand sales continued to benefit from contract gains. The current price assumes baby weakness overwhelms everything. The variant view is that adult care, contract wins, SG&amp;A cuts, working-capital discipline, and lower transformation capex are enough to move Ontex from cash drag to positive cash generation.</p>\n<p>The balance sheet is the entire opportunity and the entire risk. Net debt was €550 million at Q1 2026, leverage was 3.36x, and the RCF covenant is tight. That is why the stock is this cheap. But the 2026 maturity cliff has been removed: Ontex refinanced into €400 million of 5.25% notes due 2030 and a €270 million RCF due 2029. This is not a balance sheet with unlimited time, but it is not a near-term wall either.</p>\n<p>The forward math is straightforward. FY2025 adjusted EBITDA was €176 million. Management’s 2026 guide implies roughly €190 million to €195 million. At the current price, the market is valuing that at about 4x EBITDA, while also applying an equity multiple that assumes recurring distress. If Ontex merely delivers positive free cash flow, holds EBITDA near €190 million, and shows leverage moving toward 3x by year-end, the equity should not trade at distressed-stub levels. A 5x EV/EBITDA multiple on €190 million of EBITDA, less €530 million to €550 million of net debt, supports roughly €5.00 to €5.30 per share.</p>\n<p>The upside case is not heroic. It requires baby care to stop getting worse, adult care mix to keep improving, and the 15% SG&amp;A position reduction plus capacity right-sizing to flow through. Product launches in incontinence and feminine care suggest management is at least pushing toward higher-value use cases rather than only competing on basic diapers. If 2027 EBITDA reaches €215 million to €225 million and net debt falls below €500 million, a still-modest 5.5x multiple produces an equity value well above today’s price.</p>\n<p>The main risk is that Q1 was not just a trough. If baby care remains under pressure from branded promotions, energy and oil-linked raw materials stay elevated, and cost actions are offset by volume loss, Ontex could miss the 2026 EBITDA recovery and lose covenant headroom. In that case, the equity becomes a financing-risk security, not a cheap consumer-staples turnaround.</p>\n<p>This is a high-risk small-cap deleveraging thesis, but the setup is asymmetric because the stock already prices in a lot of failure. The market does not need to believe in a great company. It only needs proof that Ontex is a mediocre but viable company earning close to €190 million of EBITDA and generating cash.</p>\n<p>Current price: about €2.64.</p>\n<p>Bear target: €1.50, down 43%. EBITDA slips toward €150 million, leverage stays above 3.5x, and dilution or creditor pressure becomes a real risk.</p>\n<p>Base target: €5.25, up 99%. EBITDA reaches about €190 million, free cash flow turns positive, net debt stabilizes or falls modestly, and the stock rerates to around 5x EV/EBITDA.</p>\n<p>Bull target: €8.00, up 203%. Adult care mix and cost actions lift EBITDA above €215 million, leverage moves clearly below 3x, and the market revalues Ontex as a repaired private-label hygiene platform rather than a distressed diaper manufacturer.</p>",
+  "metadata": {
+    "attempts": 1,
+    "baseline_thesis_path": "results/thesis_runs/yahoo-global-flash-full/OT7.F/thesis.md",
+    "company_name": "Ontex Group N.V.              A",
+    "country": "de",
+    "created_at_utc": "2026-05-18T12:41:25.007130+00:00",
+    "currency": "EUR",
+    "elapsed_seconds": 178.758,
+    "exchange": "Frankfurt",
+    "market_cap_usd": 210496480.0,
+    "model": "gpt-5.5",
+    "prior_thesis_path": "results/thesis_runs/deepseek-pro-medium-10k-v4-20260517/OT7.F/thesis.md",
+    "prompt_chars": 16739,
+    "provider": "codex-cli",
+    "quality_issues": [],
+    "reasoning_effort": "xhigh",
+    "run_id": "codex-gpt55-xhigh-v5-top100-20260518",
+    "source_count": 1,
+    "status": "complete",
+    "thesis_path": "results/thesis_runs/codex-gpt55-xhigh-v5-top100-20260518/OT7.F/thesis.md",
+    "ticker": "OT7.F",
+    "updated_at_utc": "2026-05-18T12:41:25.007176+00:00"
+  }
+}
