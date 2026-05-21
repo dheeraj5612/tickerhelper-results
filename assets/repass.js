@@ -1,6 +1,6 @@
 (function () {
   const STORAGE_KEY = "signal-ledger-repass-watchlist-v1";
-  const DATA_URL = "./data/gpt55_repass.json?v=20260521d";
+  const DATA_URL = "./data/gpt55_repass.json?v=20260521e";
 
   const state = {
     rows: [],
@@ -60,6 +60,8 @@
   const sectorOrder = [
     "Healthcare & Pharma",
     "Semiconductors & Hardware",
+    "MLCC",
+    "PCB",
     "Energy & Utilities",
     "Metals & Materials",
     "Financials & Credit",
@@ -95,7 +97,7 @@
     "Poland",
     "Other / Mixed",
   ];
-  const momentumOrder = ["Excellent", "Good", "Positive", "Mixed / Watch", "Weak / Stagnant", "Unknown"];
+  const momentumOrder = ["Excellent", "Good", "Positive", "Mixed / Watch", "Data Limited / Neutral", "Weak / Stagnant", "No Live Public Line"];
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -119,6 +121,31 @@
     return Number.isFinite(value) ? value.toFixed(2) : "";
   }
 
+  function pct(value) {
+    return Number.isFinite(value) ? `${(value * 100).toFixed(1)}%` : "";
+  }
+
+  function momentumLabel(row) {
+    return row.momentum_signal || "Data Limited / Neutral";
+  }
+
+  function momentumClass(signal) {
+    const text = normalize(signal);
+    if (text.includes("weak") || text.includes("no live")) return "momentum weak";
+    if (text.includes("mixed") || text.includes("data limited")) return "momentum neutral";
+    return "momentum";
+  }
+
+  function momentumMeta(row) {
+    return [
+      row.momentum_source ? `source ${row.momentum_source}` : "",
+      row.momentum_symbol ? `symbol ${row.momentum_symbol}` : "",
+      Number.isFinite(row.momentum_1y_return) ? `1Y ${pct(row.momentum_1y_return)}` : "",
+      Number.isFinite(row.momentum_3m_return) ? `3M ${pct(row.momentum_3m_return)}` : "",
+      Number.isFinite(row.momentum_52w_position) ? `52W range ${pct(row.momentum_52w_position)}` : "",
+    ].filter(Boolean).join(" · ");
+  }
+
   function tierShort(tier) {
     return String(tier || "").replace(/^[A-D]\s+-\s+/, "");
   }
@@ -135,9 +162,9 @@
 
   function overlayPills(row) {
     const pills = [];
-    if (row.momentum_signal && row.momentum_signal !== "Unknown") {
-      const cls = String(row.momentum_signal).toLowerCase().includes("weak") ? "momentum weak" : "momentum";
-      pills.push(`<span class="risk-pill ${cls}">${escapeHtml(row.momentum_signal)}</span>`);
+    const signal = momentumLabel(row);
+    if (signal) {
+      pills.push(`<span class="risk-pill ${momentumClass(signal)}">${escapeHtml(signal)}</span>`);
     }
     if (row.accounting_risk_flag) {
       pills.push(`<span class="risk-pill accounting">Accounting ${escapeHtml(row.accounting_risk_flag)}</span>`);
@@ -166,7 +193,13 @@
     if (includesAny(text, ["delisted", "non-actionable", "stale", "acquired", "go-private", "duplicate exposure"])) {
       return "Non-Actionable Cleanup";
     }
-    if (matchesAny(text, [/\bsemiconductor(s)?\b/, /\bsemis\b/, /\bsemicap\b/, /\bchips?\b/, /\bwafer(s)?\b/, /\bfoundry\b/, /\bmemory\b/, /\bpcb\b/, /\bdisplay driver\b/, /\bsoc\b/, /\belectronics\b/])) {
+    if (matchesAny(text, [/\bmlcc\b/, /\bceramic capacitor(s)?\b/, /\bmultilayer ceramic capacitor(s)?\b/])) {
+      return "MLCC";
+    }
+    if (matchesAny(text, [/\bpcb\b/, /\bprinted circuit board(s)?\b/])) {
+      return "PCB";
+    }
+    if (matchesAny(text, [/\bsemiconductor(s)?\b/, /\bsemis\b/, /\bsemicap\b/, /\bchips?\b/, /\bwafer(s)?\b/, /\bfoundry\b/, /\bmemory\b/, /\bdisplay driver\b/, /\bsoc\b/, /\belectronics\b/])) {
       return "Semiconductors & Hardware";
     }
     if (matchesAny(text, [/\bhealthcare\b/, /\bbiotech\b/, /\bpharma\b/, /\bmedtech\b/, /\bclinics?\b/, /\bdiagnostics?\b/, /\bmedical\b/, /\bhospitals?\b/, /\beyecare\b/, /\btherapeutics\b/])) {
@@ -273,10 +306,16 @@
       clean_score: finiteNumber(row.clean_score, null),
       clean_score_pre_momentum_overlay: finiteNumber(row.clean_score_pre_momentum_overlay, null),
       momentum_overlay: finiteNumber(row.momentum_overlay, 0),
-      momentum_signal: row.momentum_signal || "Unknown",
+      momentum_signal: row.momentum_signal || "Data Limited / Neutral",
+      momentum_1y_return: finiteNumber(row.momentum_1y_return, null),
+      momentum_3m_return: finiteNumber(row.momentum_3m_return, null),
+      momentum_52w_position: finiteNumber(row.momentum_52w_position, null),
+      momentum_source: row.momentum_source || "",
+      momentum_symbol: row.momentum_symbol || "",
       accounting_cash_overlay: finiteNumber(row.accounting_cash_overlay, 0),
       accounting_risk_flag: row.accounting_risk_flag || "",
       balance_sheet_signal: row.balance_sheet_signal || "",
+      rank_blurb: row.rank_blurb || row.why || "",
     }));
   }
 
@@ -322,7 +361,7 @@
   function buildMomentumStats() {
     const byName = new Map();
     state.rows.forEach((row) => {
-      const name = row.momentum_signal || "Unknown";
+      const name = momentumLabel(row);
       if (!byName.has(name)) byName.set(name, { name, count: 0 });
       byName.get(name).count += 1;
     });
@@ -364,7 +403,10 @@
         row.theme,
         row.sector,
         row.country,
-        row.momentum_signal,
+        momentumLabel(row),
+        row.rank_blurb,
+        row.momentum_source,
+        row.momentum_symbol,
         row.source,
         row.why,
         row.tier,
@@ -482,7 +524,7 @@
               <span class="moic-pill">U ${escapeHtml(moic(row.bull_moic))}</span>
             </div>
           </div>
-          <p class="priority-why">${escapeHtml(row.why)}</p>
+          <p class="priority-why">${escapeHtml(row.rank_blurb || row.why)}</p>
         </article>`
       )
       .join("");
@@ -535,9 +577,13 @@
           <td>${escapeHtml(moic(row.base_moic))}</td>
           <td>${escapeHtml(moic(row.bull_moic))}</td>
           <td>${escapeHtml(score(row.clean_score))}</td>
-          <td>${escapeHtml(row.momentum_signal || "Unknown")}</td>
+          <td class="momentum-cell">${escapeHtml(momentumLabel(row))}</td>
           <td>${escapeHtml(row.source)}</td>
-          <td class="why-cell">${overlayPills(row)}${escapeHtml(row.why)}</td>
+          <td class="why-cell">
+            ${overlayPills(row)}
+            <div class="rank-blurb">${escapeHtml(row.rank_blurb || "")}</div>
+            <div class="why-detail">${escapeHtml(row.why)}</div>
+          </td>
           <td class="row-actions">
             <button class="icon-button" type="button" data-action="watch" data-key="${escapeHtml(row._key)}" title="${pinned ? "Remove from pinned list" : "Pin to local list"}">${pinned ? "Pinned" : "Pin"}</button>
             <button class="icon-button" type="button" data-action="details" data-key="${escapeHtml(row._key)}" title="Toggle details">${detailOpen ? "Less" : "More"}</button>
@@ -565,7 +611,12 @@
               </div>
               <div>
                 <span class="detail-label">Momentum</span>
-                <strong>${escapeHtml(row.momentum_signal || "Unknown")} · ${escapeHtml(score(row.momentum_overlay))}</strong>
+                <strong>${escapeHtml(momentumLabel(row))} · ${escapeHtml(score(row.momentum_overlay))}</strong>
+                <small>${escapeHtml(momentumMeta(row) || "No chart metadata available")}</small>
+              </div>
+              <div>
+                <span class="detail-label">Rank blurb</span>
+                <strong>${escapeHtml(row.rank_blurb || "")}</strong>
               </div>
               <div>
                 <span class="detail-label">Risk overlay</span>
@@ -649,7 +700,8 @@
     return `${row.overall_rank}. ${row.ticker} - ${row.company}
 Sector: ${row.sector}
 Country: ${row.country}
-Momentum: ${row.momentum_signal || "Unknown"} (${score(row.momentum_overlay)})
+Momentum: ${momentumLabel(row)} (${score(row.momentum_overlay)})
+Momentum data: ${momentumMeta(row) || "No chart metadata available"}
 Tier: ${row.tier}
 Base/Bull MOIC: ${moic(row.base_moic)} / ${moic(row.bull_moic)}
 Clean-risk score: ${score(row.clean_score)}
@@ -659,6 +711,7 @@ Risk overlay: ${[
   row.accounting_cash_overlay ? `overlay ${score(row.accounting_cash_overlay)}` : "",
 ].filter(Boolean).join(" / ") || "none"}
 Source: ${row.source}
+Rank blurb: ${row.rank_blurb || ""}
 Read: ${row.why}`;
   }
 
@@ -668,7 +721,7 @@ Read: ${row.why}`;
   }
 
   function downloadCsv() {
-    const columns = ["overall_rank", "ticker", "company", "sector", "country", "tier", "base_moic", "bull_moic", "clean_score", "momentum_signal", "momentum_overlay", "accounting_risk_flag", "balance_sheet_signal", "accounting_cash_overlay", "source", "theme", "why"];
+    const columns = ["overall_rank", "ticker", "company", "sector", "country", "tier", "base_moic", "bull_moic", "clean_score", "momentum_signal", "momentum_overlay", "momentum_source", "momentum_symbol", "momentum_1y_return", "momentum_3m_return", "momentum_52w_position", "accounting_risk_flag", "balance_sheet_signal", "accounting_cash_overlay", "source", "theme", "rank_blurb", "why"];
     const rows = filteredRows();
     const csv = [columns.join(","), ...rows.map((row) => columns.map((column) => csvEscape(row[column])).join(","))].join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });

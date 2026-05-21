@@ -274,6 +274,11 @@
   color: var(--paper);
 }
 
+.repass-table {
+  table-layout: fixed;
+  min-width: 1320px;
+}
+
 .repass-table th:nth-child(1),
 .repass-table td:nth-child(1),
 .repass-table th:nth-child(7),
@@ -295,6 +300,60 @@
   font-family: "JetBrains Mono", ui-monospace, monospace;
   font-size: 12px;
   white-space: nowrap;
+}
+
+.repass-table th:nth-child(1),
+.repass-table td:nth-child(1) {
+  width: 48px;
+}
+
+.repass-table th:nth-child(2),
+.repass-table td:nth-child(2) {
+  width: 116px;
+}
+
+.repass-table th:nth-child(3),
+.repass-table td:nth-child(3) {
+  width: 160px;
+}
+
+.repass-table th:nth-child(4),
+.repass-table td:nth-child(4) {
+  width: 138px;
+}
+
+.repass-table th:nth-child(5),
+.repass-table td:nth-child(5) {
+  width: 112px;
+}
+
+.repass-table th:nth-child(6),
+.repass-table td:nth-child(6) {
+  width: 116px;
+}
+
+.repass-table th:nth-child(7),
+.repass-table td:nth-child(7),
+.repass-table th:nth-child(8),
+.repass-table td:nth-child(8),
+.repass-table th:nth-child(9),
+.repass-table td:nth-child(9) {
+  width: 70px;
+}
+
+.repass-table th:nth-child(10),
+.repass-table td:nth-child(10) {
+  width: 126px;
+}
+
+.repass-table th:nth-child(11),
+.repass-table td:nth-child(11) {
+  width: 76px;
+}
+
+.repass-table th:nth-child(13),
+.repass-table td:nth-child(13) {
+  width: 126px;
 }
 
 .ticker-link {
@@ -334,9 +393,22 @@
 }
 
 .why-cell {
-  min-width: 320px;
-  max-width: 620px;
+  min-width: 360px;
+  max-width: none;
   color: var(--ink-3);
+}
+
+.rank-blurb {
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.why-detail {
+  margin-top: 5px;
+  color: var(--ink-mute);
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .risk-pills {
@@ -382,6 +454,12 @@
   background: rgba(122, 31, 31, 0.08);
 }
 
+.risk-pill.momentum.neutral {
+  color: var(--ink-mute);
+  border-color: rgba(91, 79, 63, 0.32);
+  background: rgba(91, 79, 63, 0.08);
+}
+
 .row-actions {
   min-width: 124px;
   white-space: nowrap;
@@ -411,6 +489,14 @@
 
 .row-detail strong {
   display: block;
+  line-height: 1.25;
+}
+
+.row-detail small {
+  display: block;
+  margin-top: 4px;
+  color: var(--ink-mute);
+  font-size: 11px;
   line-height: 1.25;
 }
 
