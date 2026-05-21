@@ -1,15 +1,19 @@
 (function () {
   const STORAGE_KEY = "signal-ledger-repass-watchlist-v1";
-  const DATA_URL = "./data/gpt55_repass.json?v=20260521b";
+  const DATA_URL = "./data/gpt55_repass.json?v=20260521d";
 
   const state = {
     rows: [],
     pending: [],
     tiers: [],
     sectors: [],
+    countries: [],
+    momentumBuckets: [],
     query: "",
     tier: "All",
     sector: "All",
+    country: "All",
+    momentum: "All",
     sort: "overall_rank",
     minBase: 0,
     minClean: -2.5,
@@ -28,6 +32,8 @@
     snapshotStatus: document.getElementById("snapshot-status"),
     search: document.getElementById("repass-search"),
     sectorFilter: document.getElementById("sector-filter"),
+    countryFilter: document.getElementById("country-filter"),
+    momentumFilter: document.getElementById("momentum-filter"),
     tierFilter: document.getElementById("tier-filter"),
     tierTabs: document.getElementById("tier-tabs"),
     sort: document.getElementById("sort-select"),
@@ -53,6 +59,7 @@
   const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
   const sectorOrder = [
     "Healthcare & Pharma",
+    "Semiconductors & Hardware",
     "Energy & Utilities",
     "Metals & Materials",
     "Financials & Credit",
@@ -63,6 +70,32 @@
     "Special Situations",
     "Non-Actionable Cleanup",
   ];
+  const countryOrder = [
+    "United States",
+    "Canada",
+    "United Kingdom",
+    "Japan",
+    "South Korea",
+    "Hong Kong / China",
+    "China",
+    "Australia",
+    "Germany",
+    "Italy",
+    "France",
+    "Sweden",
+    "Norway",
+    "Denmark",
+    "Switzerland",
+    "Israel",
+    "Malaysia",
+    "Singapore",
+    "Taiwan",
+    "Mexico",
+    "South Africa",
+    "Poland",
+    "Other / Mixed",
+  ];
+  const momentumOrder = ["Excellent", "Good", "Positive", "Mixed / Watch", "Weak / Stagnant", "Unknown"];
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -102,6 +135,10 @@
 
   function overlayPills(row) {
     const pills = [];
+    if (row.momentum_signal && row.momentum_signal !== "Unknown") {
+      const cls = String(row.momentum_signal).toLowerCase().includes("weak") ? "momentum weak" : "momentum";
+      pills.push(`<span class="risk-pill ${cls}">${escapeHtml(row.momentum_signal)}</span>`);
+    }
     if (row.accounting_risk_flag) {
       pills.push(`<span class="risk-pill accounting">Accounting ${escapeHtml(row.accounting_risk_flag)}</span>`);
     }
@@ -119,36 +156,110 @@
     return words.some((word) => text.includes(word));
   }
 
+  function matchesAny(text, patterns) {
+    return patterns.some((pattern) => pattern.test(text));
+  }
+
   function deriveSector(row) {
-    const text = normalize(`${row.theme} ${row.company} ${row.ticker}`);
+    const primaryText = normalize(`${row.company} ${row.ticker} ${row.why}`);
+    const text = normalize(`${row.company} ${row.ticker} ${row.why} ${row.theme}`);
     if (includesAny(text, ["delisted", "non-actionable", "stale", "acquired", "go-private", "duplicate exposure"])) {
       return "Non-Actionable Cleanup";
     }
-    if (includesAny(text, ["healthcare", "biotech", "pharma", "medtech", "clinic", "diagnostic", "medical", "hospital", "care"])) {
+    if (matchesAny(text, [/\bsemiconductor(s)?\b/, /\bsemis\b/, /\bsemicap\b/, /\bchips?\b/, /\bwafer(s)?\b/, /\bfoundry\b/, /\bmemory\b/, /\bpcb\b/, /\bdisplay driver\b/, /\bsoc\b/, /\belectronics\b/])) {
+      return "Semiconductors & Hardware";
+    }
+    if (matchesAny(text, [/\bhealthcare\b/, /\bbiotech\b/, /\bpharma\b/, /\bmedtech\b/, /\bclinics?\b/, /\bdiagnostics?\b/, /\bmedical\b/, /\bhospitals?\b/, /\beyecare\b/, /\btherapeutics\b/])) {
       return "Healthcare & Pharma";
     }
-    if (includesAny(text, ["oil", "gas", "energy", "oilfield", "offshore", "e&p", "petrochemical", "helium", "utility", "utilities", "renewable", "rng", "coal"])) {
+    if (matchesAny(primaryText, [/\boil\b/, /\bgas\b/, /\benergy\b/, /\boilfield\b/, /\boffshore\b/, /\be&p\b/, /\bpetrochemical\b/, /\bhelium\b/, /\butility\b/, /\butilities\b/, /\brenewable(s)?\b/, /\brng\b/, /\bcoal\b/, /\bsolar\b/, /\bbiogas\b/, /\bpower\b/])) {
       return "Energy & Utilities";
     }
-    if (includesAny(text, ["mining", "metals", "gold", "silver", "copper", "materials", "resource", "commodity", "steel", "tin", "lithium", "manganese", "battery"])) {
+    if (matchesAny(primaryText, [/\bmining\b/, /\bmetals?\b/, /\bgold\b/, /\bsilver\b/, /\bcopper\b/, /\bmaterials?\b/, /\bresources?\b/, /\bcommodity\b/, /\bsteel\b/, /\btin\b/, /\blithium\b/, /\bmanganese\b/, /\bbattery\b/, /\bgraphite\b/, /\bchemicals?\b/])) {
       return "Metals & Materials";
     }
-    if (includesAny(text, ["financial", "bank", "banks", "insurance", "asset manager", "credit", "lending", "capital markets", "defi", "mortgage", "payments"])) {
-      return "Financials & Credit";
-    }
-    if (includesAny(text, ["software", "data", "adtech", "semiconductor", "semis", "semicap", "electronics", "hardware", "payments", "crypto", "internet", "ai"])) {
-      return "Technology & Digital";
-    }
-    if (includesAny(text, ["property", "construction", "cement", "infrastructure", "real estate", "holdco", "holdcos", "asset-backed"])) {
+    if (matchesAny(primaryText, [/\bproperty\b/, /\bconstruction\b/, /\bcement\b/, /\binfrastructure\b/, /\breal estate\b/, /\bholdco(s)?\b/, /\basset-backed\b/, /\bcontractor\b/, /\bnav\b/])) {
       return "Property & Infrastructure";
     }
-    if (includesAny(text, ["consumer", "food", "leisure", "media", "cannabis", "travel", "luxury", "beauty", "education", "restaurant", "cable", "autos", "auto", "gaming"])) {
+    if (matchesAny(primaryText, [/\bconsumer\b/, /\bfood\b/, /\bleisure\b/, /\bmedia\b/, /\bcannabis\b/, /\btravel\b/, /\bluxury\b/, /\bbeauty\b/, /\beducation\b/, /\brestaurants?\b/, /\bcable\b/, /\bautos?\b/, /\bgaming\b/, /\bapparel\b/, /\baquaculture\b/, /\bsalmon\b/, /\bhog\b/, /\bpoultry\b/, /\bplantation\b/, /\beyecare\b/])) {
       return "Consumer & Media";
     }
-    if (includesAny(text, ["industrial", "industrials", "aerospace", "machinery", "logistics", "airline", "airlines", "staffing", "services", "equipment"])) {
+    if (matchesAny(primaryText, [/\bsoftware\b/, /\bsaas\b/, /\bdata\b/, /\badtech\b/, /\bhardware\b/, /\bpayments?\b/, /\bcrypto\b/, /\binternet\b/, /\bai\b/, /\bdigital\b/, /\bcyber\b/, /\bcommerce\b/, /\bsmart factory\b/, /\bplatform\b/])) {
+      return "Technology & Digital";
+    }
+    if (matchesAny(text, [/\bfinancial(s)?\b/, /\bbancorp\b/, /\bbanks?\b/, /\binsurance\b/, /\basset manager\b/, /\basset-management\b/, /\bcredit\b/, /\blending\b/, /\bcapital markets\b/, /\bdefi\b/, /\bmortgage\b/])) {
+      return "Financials & Credit";
+    }
+    if (matchesAny(primaryText, [/\bindustrial(s)?\b/, /\baerospace\b/, /\bmachinery\b/, /\blogistics\b/, /\bairlines?\b/, /\bstaffing\b/, /\bservices\b/, /\bequipment\b/, /\btransportation\b/, /\brecruitment\b/])) {
       return "Industrials & Aerospace";
     }
     return "Special Situations";
+  }
+
+  function deriveCountry(row) {
+    const tickerText = normalize(row.ticker);
+    const text = normalize(`${row.ticker} ${row.company} ${row.theme} ${row.source}`);
+    const hasBareUsTicker = String(row.ticker || "")
+      .split(/[\/,;|()]+/)
+      .map((part) => part.trim())
+      .some((part) => /^[A-Z]{1,5}$/.test(part));
+    if (hasBareUsTicker && !matchesAny(tickerText, [/\.(hk|ks|kq|t|to|v|ax|l|mi|pa|st|ol|co|sw|ta|kl|si|tw|two|mx|jo|wa|br|as|nz|jk|pr)\b/])) return "United States";
+    if (hasBareUsTicker && matchesAny(tickerText, [/\.[f]\b/]) && !matchesAny(tickerText, [/\.(hk|ks|kq|t|to|v|ax|l|mi|pa|st|ol|co|sw|ta|kl|si|tw|two|mx|jo|wa|br|as|nz|jk|pr)\b/])) return "United States";
+    if (matchesAny(tickerText, [/hkex:/, /\.(hk)\b/])) return "Hong Kong / China";
+    if (matchesAny(tickerText, [/szse:/, /sse:/, /\.(ss|sz)\b/])) return "China";
+    if (matchesAny(tickerText, [/krx:/, /\.(kq|ks)\b/])) return "South Korea";
+    if (matchesAny(tickerText, [/tse:/, /\.t\b/])) return "Japan";
+    if (matchesAny(tickerText, [/\.(to|v)\b/, /tsx:/, /tsxv:/])) return "Canada";
+    if (matchesAny(tickerText, [/\.ax\b/, /asx:/])) return "Australia";
+    if (matchesAny(tickerText, [/\.l\b/, /lse:/])) return "United Kingdom";
+    if (matchesAny(tickerText, [/\.de\b/, /xetra/])) return "Germany";
+    if (matchesAny(tickerText, [/\.mi\b/])) return "Italy";
+    if (matchesAny(tickerText, [/\.pa\b/])) return "France";
+    if (matchesAny(tickerText, [/\.st\b/])) return "Sweden";
+    if (matchesAny(tickerText, [/\.ol\b/])) return "Norway";
+    if (matchesAny(tickerText, [/\.co\b/])) return "Denmark";
+    if (matchesAny(tickerText, [/\.sw\b/])) return "Switzerland";
+    if (matchesAny(tickerText, [/\.ta\b/, /tase:/])) return "Israel";
+    if (matchesAny(tickerText, [/\.kl\b/, /myx:/])) return "Malaysia";
+    if (matchesAny(tickerText, [/\.si\b/])) return "Singapore";
+    if (matchesAny(tickerText, [/\.(tw|two)\b/, /twse:/, /tpex:/])) return "Taiwan";
+    if (matchesAny(tickerText, [/\.mx\b/, /bmv:/])) return "Mexico";
+    if (matchesAny(tickerText, [/\.jo\b/, /jse:/])) return "South Africa";
+    if (matchesAny(tickerText, [/\.wa\b/, /newconnect:/])) return "Poland";
+    if (matchesAny(tickerText, [/\.br\b/])) return "Belgium";
+    if (matchesAny(tickerText, [/\.as\b/])) return "Netherlands";
+    if (matchesAny(tickerText, [/\.nz\b/])) return "New Zealand";
+    if (matchesAny(tickerText, [/\.jk\b/])) return "Indonesia";
+    if (matchesAny(tickerText, [/\.pr\b/])) return "Czech Republic";
+    if (includesAny(text, ["hong kong", " hk$"])) return "Hong Kong / China";
+    if (includesAny(text, [" china ", "beijing", "shanghai", "shenzhen"])) return "China";
+    if (includesAny(text, [" korea", "korean"])) return "South Korea";
+    if (includesAny(text, [" japan", "japan "])) return "Japan";
+    if (includesAny(text, [" canada", "canadian"])) return "Canada";
+    if (includesAny(text, [" australia", "australian"])) return "Australia";
+    if (includesAny(text, ["london", "gbp", "uk ", "united kingdom", " britain"])) return "United Kingdom";
+    if (includesAny(text, ["germany", "german"])) return "Germany";
+    if (includesAny(text, ["italy", "italian"])) return "Italy";
+    if (includesAny(text, ["france", "french"])) return "France";
+    if (includesAny(text, ["sweden", "swedish", " sek"])) return "Sweden";
+    if (includesAny(text, ["norway", "norwegian", " nok"])) return "Norway";
+    if (includesAny(text, ["denmark", "danish", " dkk"])) return "Denmark";
+    if (includesAny(text, ["switzerland", "swiss", " chf"])) return "Switzerland";
+    if (includesAny(text, ["israel", "israeli", " ila", " ils", "₪"])) return "Israel";
+    if (includesAny(text, ["malaysia", "malaysian", " myr", " rm"])) return "Malaysia";
+    if (includesAny(text, ["singapore", " s$"])) return "Singapore";
+    if (includesAny(text, ["taiwan", "twd", "nt$"])) return "Taiwan";
+    if (includesAny(text, ["mexico", "mexican", "mx$"])) return "Mexico";
+    if (includesAny(text, ["south africa", "zar", "zac"])) return "South Africa";
+    if (includesAny(text, ["poland", "polish", "pln"])) return "Poland";
+    if (includesAny(text, ["belgium", "brussels"])) return "Belgium";
+    if (includesAny(text, ["netherlands", "dutch"])) return "Netherlands";
+    if (includesAny(text, ["new zealand", "nz$"])) return "New Zealand";
+    if (includesAny(text, ["indonesia", "idr"])) return "Indonesia";
+    if (includesAny(text, ["prague", "czech"])) return "Czech Republic";
+    if (includesAny(text, ["nyse:", "nasdaq:", "otc", "us$", "united states"])) return "United States";
+    if (/^[A-Z]{1,5}(\/[A-Z]{1,5})?(\s|$)/.test(String(row.ticker || ""))) return "United States";
+    return "Other / Mixed";
   }
 
   function hydrateRows(rows) {
@@ -156,9 +267,13 @@
       ...row,
       _key: `${row.ticker || "row"}::${row.company || ""}::${row.source || index}`,
       sector: row.sector || deriveSector(row),
+      country: row.country || deriveCountry(row),
       base_moic: finiteNumber(row.base_moic, null),
       bull_moic: finiteNumber(row.bull_moic, null),
       clean_score: finiteNumber(row.clean_score, null),
+      clean_score_pre_momentum_overlay: finiteNumber(row.clean_score_pre_momentum_overlay, null),
+      momentum_overlay: finiteNumber(row.momentum_overlay, 0),
+      momentum_signal: row.momentum_signal || "Unknown",
       accounting_cash_overlay: finiteNumber(row.accounting_cash_overlay, 0),
       accounting_risk_flag: row.accounting_risk_flag || "",
       balance_sheet_signal: row.balance_sheet_signal || "",
@@ -190,6 +305,34 @@
       });
   }
 
+  function buildCountryStats() {
+    const byName = new Map();
+    state.rows.forEach((row) => {
+      const country = row.country || "Other / Mixed";
+      if (!byName.has(country)) byName.set(country, { name: country, count: 0 });
+      byName.get(country).count += 1;
+    });
+    state.countries = Array.from(byName.values()).sort((a, b) => {
+      const ai = countryOrder.indexOf(a.name);
+      const bi = countryOrder.indexOf(b.name);
+      return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi) || b.count - a.count || a.name.localeCompare(b.name);
+    });
+  }
+
+  function buildMomentumStats() {
+    const byName = new Map();
+    state.rows.forEach((row) => {
+      const name = row.momentum_signal || "Unknown";
+      if (!byName.has(name)) byName.set(name, { name, count: 0 });
+      byName.get(name).count += 1;
+    });
+    state.momentumBuckets = Array.from(byName.values()).sort((a, b) => {
+      const ai = momentumOrder.indexOf(a.name);
+      const bi = momentumOrder.indexOf(b.name);
+      return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi) || b.count - a.count || a.name.localeCompare(b.name);
+    });
+  }
+
   function loadWatchlist() {
     try {
       const keys = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
@@ -208,6 +351,8 @@
     return state.rows.filter((row) => {
       if (state.tier !== "All" && row.tier !== state.tier) return false;
       if (state.sector !== "All" && row.sector !== state.sector) return false;
+      if (state.country !== "All" && row.country !== state.country) return false;
+      if (state.momentum !== "All" && row.momentum_signal !== state.momentum) return false;
       if (state.hideAccountingRisk && row.accounting_risk_flag) return false;
       if (state.cashSupportedOnly && !row.balance_sheet_signal) return false;
       if (Number.isFinite(row.base_moic) && row.base_moic < state.minBase) return false;
@@ -218,6 +363,8 @@
         row.company,
         row.theme,
         row.sector,
+        row.country,
+        row.momentum_signal,
         row.source,
         row.why,
         row.tier,
@@ -232,7 +379,8 @@
     return activeRows().sort((a, b) => {
       if (state.sort === "ticker") return String(a.ticker).localeCompare(String(b.ticker));
       if (state.sort === "sector") return String(a.sector).localeCompare(String(b.sector)) || (a.overall_rank || 0) - (b.overall_rank || 0);
-      if (state.sort === "clean_score" || state.sort === "base_moic" || state.sort === "bull_moic") {
+      if (state.sort === "country") return String(a.country).localeCompare(String(b.country)) || (a.overall_rank || 0) - (b.overall_rank || 0);
+      if (state.sort === "clean_score" || state.sort === "base_moic" || state.sort === "bull_moic" || state.sort === "momentum_overlay") {
         return (finiteNumber(b[state.sort], -Infinity) - finiteNumber(a[state.sort], -Infinity)) || (a.overall_rank || 0) - (b.overall_rank || 0);
       }
       return (a.overall_rank || 0) - (b.overall_rank || 0);
@@ -254,6 +402,8 @@
       metric("Analyzed", summary.unique_analyzed_names || fmt.format(state.rows.length), "Flattened economic exposures", "blue"),
       metric("Diligence First", summary.diligence_first_names || fmt.format(diligence), "Highest priority bucket", "green"),
       metric("Strong Watchlist", summary.strong_watchlist_names || fmt.format(watchlist), "Second-tier research queue", "amber"),
+      metric("Countries", fmt.format(state.countries.length), "Listing-country filters available", "blue"),
+      metric("Momentum Confirmed", summary.positive_momentum_names_boosted || "0", "Excellent/good/positive chart action", "green"),
       metric("Focus Missing", summary.focus_top100_names_still_missing_from_pasted_gpt_5_5_pro_scenario_runs || fmt.format(pending), "Sector focus queue remaining", "rose"),
       metric("Accounting Flags", summary.accounting_or_filing_issue_names_penalized || "0", "Penalized in clean-risk rerank", "rose"),
       metric("Cash Support", summary.high_cash_or_balance_sheet_support_names_boosted || "0", "Net-cash, cash-flow, or asset-backed", "green"),
@@ -290,9 +440,31 @@
       .join("");
   }
 
+  function renderCountryControls() {
+    const options = ["All", ...state.countries.map((item) => item.name)];
+    els.countryFilter.innerHTML = options
+      .map((country) => {
+        const count = country === "All" ? state.rows.length : state.countries.find((item) => item.name === country)?.count || 0;
+        return `<option value="${escapeHtml(country)}">${escapeHtml(country)} (${fmt.format(count)})</option>`;
+      })
+      .join("");
+    els.countryFilter.value = state.country;
+  }
+
+  function renderMomentumControls() {
+    const options = ["All", ...state.momentumBuckets.map((item) => item.name)];
+    els.momentumFilter.innerHTML = options
+      .map((momentum) => {
+        const count = momentum === "All" ? state.rows.length : state.momentumBuckets.find((item) => item.name === momentum)?.count || 0;
+        return `<option value="${escapeHtml(momentum)}">${escapeHtml(momentum)} (${fmt.format(count)})</option>`;
+      })
+      .join("");
+    els.momentumFilter.value = state.momentum;
+  }
+
   function renderPriority() {
     const top = state.rows
-      .filter((row) => row.tier === "A - Diligence First" && (state.sector === "All" || row.sector === state.sector))
+      .filter((row) => row.tier === "A - Diligence First" && (state.sector === "All" || row.sector === state.sector) && (state.country === "All" || row.country === state.country) && (state.momentum === "All" || row.momentum_signal === state.momentum))
       .sort((a, b) => (a.overall_rank || 0) - (b.overall_rank || 0))
       .slice(0, 12);
     els.snapshotStatus.textContent = `${top.length} shown`;
@@ -342,9 +514,11 @@
   function renderTable() {
     const rows = filteredRows();
     const sectorText = state.sector === "All" ? "all sectors" : state.sector;
-    els.summary.textContent = `${fmt.format(rows.length)} of ${fmt.format(state.rows.length)} exposures shown · ${sectorText}`;
+    const countryText = state.country === "All" ? "all countries" : state.country;
+    const momentumText = state.momentum === "All" ? "all momentum" : state.momentum;
+    els.summary.textContent = `${fmt.format(rows.length)} of ${fmt.format(state.rows.length)} exposures shown · ${sectorText} · ${countryText} · ${momentumText}`;
     if (!rows.length) {
-      els.body.innerHTML = `<tr><td colspan="11" class="muted">No rows match the current filters.</td></tr>`;
+      els.body.innerHTML = `<tr><td colspan="13" class="muted">No rows match the current filters.</td></tr>`;
       return;
     }
     els.body.innerHTML = rows
@@ -356,10 +530,12 @@
           <td><span class="ticker-link">${escapeHtml(row.ticker)}</span></td>
           <td>${escapeHtml(row.company)}</td>
           <td><span class="sector-pill">${escapeHtml(row.sector)}</span></td>
+          <td><span class="country-pill">${escapeHtml(row.country)}</span></td>
           <td><span class="tier-badge">${escapeHtml(tierShort(row.tier))}</span></td>
           <td>${escapeHtml(moic(row.base_moic))}</td>
           <td>${escapeHtml(moic(row.bull_moic))}</td>
           <td>${escapeHtml(score(row.clean_score))}</td>
+          <td>${escapeHtml(row.momentum_signal || "Unknown")}</td>
           <td>${escapeHtml(row.source)}</td>
           <td class="why-cell">${overlayPills(row)}${escapeHtml(row.why)}</td>
           <td class="row-actions">
@@ -369,7 +545,7 @@
         </tr>`;
         if (!detailOpen) return [rowHtml];
         const detailHtml = `<tr class="detail-row">
-          <td colspan="11">
+          <td colspan="13">
             <div class="row-detail">
               <div>
                 <span class="detail-label">Theme</span>
@@ -380,8 +556,16 @@
                 <strong>${escapeHtml(row.source)} · Rank ${escapeHtml(row.source_rank || "")}</strong>
               </div>
               <div>
+                <span class="detail-label">Country</span>
+                <strong>${escapeHtml(row.country)}</strong>
+              </div>
+              <div>
                 <span class="detail-label">Clean-risk score</span>
                 <strong>${escapeHtml(score(row.clean_score))}</strong>
+              </div>
+              <div>
+                <span class="detail-label">Momentum</span>
+                <strong>${escapeHtml(row.momentum_signal || "Unknown")} · ${escapeHtml(score(row.momentum_overlay))}</strong>
               </div>
               <div>
                 <span class="detail-label">Risk overlay</span>
@@ -420,6 +604,7 @@
           <p>${escapeHtml(row.company)}</p>
           <div class="watch-meta">
             <span>${escapeHtml(row.sector)}</span>
+            <span>${escapeHtml(row.country)}</span>
             <span>${escapeHtml(moic(row.base_moic))}</span>
           </div>
         </article>`
@@ -445,6 +630,8 @@
 
   function renderInteractive() {
     renderSectorControls();
+    renderCountryControls();
+    renderMomentumControls();
     renderPriority();
     renderTierControls();
     renderRangeControls();
@@ -461,6 +648,8 @@
   function rowText(row) {
     return `${row.overall_rank}. ${row.ticker} - ${row.company}
 Sector: ${row.sector}
+Country: ${row.country}
+Momentum: ${row.momentum_signal || "Unknown"} (${score(row.momentum_overlay)})
 Tier: ${row.tier}
 Base/Bull MOIC: ${moic(row.base_moic)} / ${moic(row.bull_moic)}
 Clean-risk score: ${score(row.clean_score)}
@@ -479,7 +668,7 @@ Read: ${row.why}`;
   }
 
   function downloadCsv() {
-    const columns = ["overall_rank", "ticker", "company", "sector", "tier", "base_moic", "bull_moic", "clean_score", "accounting_risk_flag", "balance_sheet_signal", "accounting_cash_overlay", "source", "theme", "why"];
+    const columns = ["overall_rank", "ticker", "company", "sector", "country", "tier", "base_moic", "bull_moic", "clean_score", "momentum_signal", "momentum_overlay", "accounting_risk_flag", "balance_sheet_signal", "accounting_cash_overlay", "source", "theme", "why"];
     const rows = filteredRows();
     const csv = [columns.join(","), ...rows.map((row) => columns.map((column) => csvEscape(row[column])).join(","))].join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
@@ -527,6 +716,8 @@ Read: ${row.why}`;
     state.query = "";
     state.tier = "All";
     state.sector = "All";
+    state.country = "All";
+    state.momentum = "All";
     state.sort = "overall_rank";
     state.minBase = 0;
     state.minClean = -2.5;
@@ -563,6 +754,16 @@ Read: ${row.why}`;
     });
     els.sectorFilter.addEventListener("change", (event) => {
       state.sector = event.target.value;
+      state.expandedKey = "";
+      renderInteractive();
+    });
+    els.countryFilter.addEventListener("change", (event) => {
+      state.country = event.target.value;
+      state.expandedKey = "";
+      renderInteractive();
+    });
+    els.momentumFilter.addEventListener("change", (event) => {
+      state.momentum = event.target.value;
       state.expandedKey = "";
       renderInteractive();
     });
@@ -662,11 +863,13 @@ Read: ${row.why}`;
     state.pending = payload.pending_top100 || [];
     state.tiers = payload.tiers || [];
     buildSectorStats();
+    buildCountryStats();
+    buildMomentumStats();
     renderAll(payload);
   }
 
   init().catch((error) => {
     els.coverage.textContent = "Failed";
-    els.body.innerHTML = `<tr><td colspan="11" class="muted">${escapeHtml(error.message)}</td></tr>`;
+    els.body.innerHTML = `<tr><td colspan="13" class="muted">${escapeHtml(error.message)}</td></tr>`;
   });
 })();

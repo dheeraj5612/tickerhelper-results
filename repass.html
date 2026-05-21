@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/results_dashboard.css?v=20260518c" />
-    <link rel="stylesheet" href="./assets/repass.css?v=20260521b" />
+    <link rel="stylesheet" href="./assets/repass.css?v=20260521d" />
   </head>
   <body class="repass-page">
     <div class="grain" aria-hidden="true"></div>
@@ -128,13 +128,17 @@
             </div>
             <div class="toolbar-actions">
               <select id="sector-filter" aria-label="Sector filter"></select>
+              <select id="country-filter" aria-label="Country filter"></select>
+              <select id="momentum-filter" aria-label="Momentum filter"></select>
               <select id="tier-filter" aria-label="Tier filter"></select>
               <select id="sort-select" aria-label="Sort repass table">
                 <option value="overall_rank">Document order</option>
                 <option value="clean_score">Clean-risk score</option>
+                <option value="momentum_overlay">Momentum</option>
                 <option value="base_moic">Base MOIC</option>
                 <option value="bull_moic">Bull MOIC</option>
                 <option value="sector">Sector</option>
+                <option value="country">Country</option>
                 <option value="ticker">Ticker</option>
               </select>
             </div>
@@ -178,10 +182,12 @@
                   <th>Ticker</th>
                   <th>Company</th>
                   <th>Sector</th>
+                  <th>Country</th>
                   <th>Tier</th>
                   <th>Base</th>
                   <th>Bull</th>
                   <th>Clean</th>
+                  <th>Mom.</th>
                   <th>Source</th>
                   <th>Why it ranks here</th>
                   <th>Actions</th>
@@ -189,7 +195,7 @@
               </thead>
               <tbody id="repass-body">
                 <tr>
-                  <td colspan="11" class="muted">Loading GPT-5.5 Pro ledger…</td>
+                  <td colspan="13" class="muted">Loading GPT-5.5 Pro ledger…</td>
                 </tr>
               </tbody>
             </table>
@@ -231,6 +237,6 @@
     </div>
 
     <div class="toast" id="repass-toast" role="status" aria-live="polite"></div>
-    <script src="./assets/repass.js?v=20260521b"></script>
+    <script src="./assets/repass.js?v=20260521d"></script>
   </body>
 </html>

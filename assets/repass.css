@@ -276,20 +276,22 @@
 
 .repass-table th:nth-child(1),
 .repass-table td:nth-child(1),
-.repass-table th:nth-child(6),
-.repass-table td:nth-child(6),
 .repass-table th:nth-child(7),
 .repass-table td:nth-child(7),
 .repass-table th:nth-child(8),
-.repass-table td:nth-child(8) {
+.repass-table td:nth-child(8),
+.repass-table th:nth-child(9),
+.repass-table td:nth-child(9) {
   text-align: right;
   white-space: nowrap;
 }
 
 .repass-table th:nth-child(2),
 .repass-table td:nth-child(2),
-.repass-table th:nth-child(9),
-.repass-table td:nth-child(9) {
+.repass-table th:nth-child(10),
+.repass-table td:nth-child(10),
+.repass-table th:nth-child(11),
+.repass-table td:nth-child(11) {
   font-family: "JetBrains Mono", ui-monospace, monospace;
   font-size: 12px;
   white-space: nowrap;
@@ -313,7 +315,8 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-.sector-pill {
+.sector-pill,
+.country-pill {
   display: inline-flex;
   align-items: center;
   max-width: 180px;
@@ -323,6 +326,11 @@
   font-weight: 700;
   line-height: 1.15;
   color: var(--ink-2);
+}
+
+.country-pill {
+  border-left-color: var(--oxblood);
+  max-width: 150px;
 }
 
 .why-cell {
@@ -360,6 +368,18 @@
 .risk-pill.cash {
   color: var(--jade);
   border-color: rgba(26, 107, 74, 0.42);
+}
+
+.risk-pill.momentum {
+  color: var(--ink-2);
+  border-color: rgba(47, 92, 169, 0.42);
+  background: rgba(47, 92, 169, 0.08);
+}
+
+.risk-pill.momentum.weak {
+  color: var(--oxblood);
+  border-color: rgba(122, 31, 31, 0.42);
+  background: rgba(122, 31, 31, 0.08);
 }
 
 .row-actions {
@@ -533,10 +553,14 @@
 
   .repass-table th:nth-child(4),
   .repass-table td:nth-child(4),
-  .repass-table th:nth-child(8),
-  .repass-table td:nth-child(8),
+  .repass-table th:nth-child(5),
+  .repass-table td:nth-child(5),
   .repass-table th:nth-child(9),
-  .repass-table td:nth-child(9) {
+  .repass-table td:nth-child(9),
+  .repass-table th:nth-child(10),
+  .repass-table td:nth-child(10),
+  .repass-table th:nth-child(11),
+  .repass-table td:nth-child(11) {
     display: none;
   }
 
