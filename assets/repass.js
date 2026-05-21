@@ -214,7 +214,7 @@
 
   async function init() {
     bindEvents();
-    const response = await fetch("./data/gpt55_repass.json");
+    const response = await fetch("./data/gpt55_repass.json?v=20260521a", { cache: "no-store" });
     if (!response.ok) throw new Error(await response.text());
     const payload = await response.json();
     state.rows = payload.rows || [];
