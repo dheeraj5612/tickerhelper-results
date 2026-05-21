@@ -304,6 +304,7 @@
       base_moic: finiteNumber(row.base_moic, null),
       bull_moic: finiteNumber(row.bull_moic, null),
       clean_score: finiteNumber(row.clean_score, null),
+      sector_rank: finiteNumber(row.sector_rank, null),
       clean_score_pre_momentum_overlay: finiteNumber(row.clean_score_pre_momentum_overlay, null),
       momentum_overlay: finiteNumber(row.momentum_overlay, 0),
       momentum_signal: row.momentum_signal || "Data Limited / Neutral",
@@ -424,6 +425,9 @@
       if (state.sort === "country") return String(a.country).localeCompare(String(b.country)) || (a.overall_rank || 0) - (b.overall_rank || 0);
       if (state.sort === "clean_score" || state.sort === "base_moic" || state.sort === "bull_moic" || state.sort === "momentum_overlay") {
         return (finiteNumber(b[state.sort], -Infinity) - finiteNumber(a[state.sort], -Infinity)) || (a.overall_rank || 0) - (b.overall_rank || 0);
+      }
+      if (state.sector !== "All" && (Number.isFinite(a.sector_rank) || Number.isFinite(b.sector_rank))) {
+        return finiteNumber(a.sector_rank, Infinity) - finiteNumber(b.sector_rank, Infinity) || (a.overall_rank || 0) - (b.overall_rank || 0);
       }
       return (a.overall_rank || 0) - (b.overall_rank || 0);
     });
@@ -567,8 +571,10 @@
       .flatMap((row) => {
         const pinned = state.watchlist.has(row._key);
         const detailOpen = state.expandedKey === row._key;
+        const rankLabel = state.sector !== "All" && Number.isFinite(row.sector_rank) ? row.sector_rank : row.overall_rank;
+        const rankSub = state.sector !== "All" && Number.isFinite(row.sector_rank) ? `Global ${row.overall_rank}` : "";
         const rowHtml = `<tr class="${pinned ? "is-pinned" : ""}">
-          <td>${escapeHtml(row.overall_rank)}</td>
+          <td><span class="rank-main">${escapeHtml(rankLabel)}</span>${rankSub ? `<small class="rank-sub">${escapeHtml(rankSub)}</small>` : ""}</td>
           <td><span class="ticker-link">${escapeHtml(row.ticker)}</span></td>
           <td>${escapeHtml(row.company)}</td>
           <td><span class="sector-pill">${escapeHtml(row.sector)}</span></td>
@@ -600,6 +606,7 @@
               <div>
                 <span class="detail-label">Source batch</span>
                 <strong>${escapeHtml(row.source)} · Rank ${escapeHtml(row.source_rank || "")}</strong>
+                ${Number.isFinite(row.sector_rank) ? `<small>${escapeHtml(row.sector)} rank ${escapeHtml(row.sector_rank)}</small>` : ""}
               </div>
               <div>
                 <span class="detail-label">Country</span>
