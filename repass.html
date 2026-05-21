@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/results_dashboard.css?v=20260518c" />
-    <link rel="stylesheet" href="./assets/repass.css?v=20260521a" />
+    <link rel="stylesheet" href="./assets/repass.css?v=20260521b" />
   </head>
   <body class="repass-page">
     <div class="grain" aria-hidden="true"></div>
@@ -87,6 +87,17 @@
 
         <section class="metric-grid repass-metrics" id="repass-metrics" aria-label="Repass summary metrics"></section>
 
+        <section class="insights-band sector-band" aria-label="Sector filter map">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Sector Map</p>
+              <h3>Filter By Research Bucket</h3>
+            </div>
+            <span id="sector-status">Loading sectors</span>
+          </div>
+          <div class="sector-grid" id="sector-grid"></div>
+        </section>
+
         <section class="insights-band repass-priority" aria-label="Diligence-first snapshot">
           <div class="section-head">
             <div>
@@ -116,14 +127,44 @@
               <kbd aria-hidden="true">/</kbd>
             </div>
             <div class="toolbar-actions">
+              <select id="sector-filter" aria-label="Sector filter"></select>
               <select id="tier-filter" aria-label="Tier filter"></select>
               <select id="sort-select" aria-label="Sort repass table">
                 <option value="overall_rank">Document order</option>
+                <option value="clean_score">Clean-risk score</option>
                 <option value="base_moic">Base MOIC</option>
                 <option value="bull_moic">Bull MOIC</option>
+                <option value="sector">Sector</option>
                 <option value="ticker">Ticker</option>
               </select>
             </div>
+          </div>
+
+          <div class="filter-deck" aria-label="Advanced filters">
+            <label class="range-control" for="base-min">
+              <span>Min Base MOIC</span>
+              <input id="base-min" type="range" min="0" max="5" step="0.05" value="0" />
+              <output id="base-min-value" for="base-min">Any</output>
+            </label>
+            <label class="range-control" for="clean-min">
+              <span>Min Clean Score</span>
+              <input id="clean-min" type="range" min="-2.5" max="2.5" step="0.05" value="-2.5" />
+              <output id="clean-min-value" for="clean-min">Any</output>
+            </label>
+            <div class="filter-actions">
+              <button class="utility-button" type="button" id="reset-filters">Reset</button>
+              <button class="utility-button" type="button" id="export-csv">Export CSV</button>
+            </div>
+          </div>
+          <div class="switch-row" aria-label="Risk overlay toggles">
+            <label class="switch-control">
+              <input id="hide-accounting-risk" type="checkbox" />
+              <span>Hide accounting / filing issue names</span>
+            </label>
+            <label class="switch-control">
+              <input id="cash-supported-only" type="checkbox" />
+              <span>Cash or asset-backed only</span>
+            </label>
           </div>
 
           <div class="tier-tabs" id="tier-tabs" aria-label="Tier quick filters"></div>
@@ -136,20 +177,38 @@
                   <th>Rank</th>
                   <th>Ticker</th>
                   <th>Company</th>
+                  <th>Sector</th>
                   <th>Tier</th>
                   <th>Base</th>
                   <th>Bull</th>
+                  <th>Clean</th>
                   <th>Source</th>
                   <th>Why it ranks here</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="repass-body">
                 <tr>
-                  <td colspan="8" class="muted">Loading GPT-5.5 Pro ledger…</td>
+                  <td colspan="11" class="muted">Loading GPT-5.5 Pro ledger…</td>
                 </tr>
               </tbody>
             </table>
           </div>
+        </section>
+
+        <section class="insights-band watchlist-band" aria-label="Local research watchlist">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Pinned Names</p>
+              <h3>Local Research List</h3>
+            </div>
+            <div class="section-actions">
+              <span id="watchlist-status">0 pinned</span>
+              <button class="utility-button compact" type="button" id="copy-watchlist">Copy</button>
+              <button class="utility-button compact" type="button" id="clear-watchlist">Clear</button>
+            </div>
+          </div>
+          <div class="watchlist-grid" id="watchlist-grid"></div>
         </section>
 
         <section class="insights-band pending-band" aria-label="Remaining final top-100 repass queue">
@@ -171,6 +230,7 @@
       </main>
     </div>
 
-    <script src="./assets/repass.js?v=20260521a"></script>
+    <div class="toast" id="repass-toast" role="status" aria-live="polite"></div>
+    <script src="./assets/repass.js?v=20260521b"></script>
   </body>
 </html>
