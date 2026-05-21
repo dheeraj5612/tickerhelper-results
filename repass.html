@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signal Ledger - GPT-5.5 Pro Repass Ledger</title>
+    <link rel="icon" href="data:," />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/results_dashboard.css?v=20260518c" />
+    <link rel="stylesheet" href="./assets/repass.css?v=20260520a" />
+  </head>
+  <body class="repass-page">
+    <div class="grain" aria-hidden="true"></div>
+
+    <div class="tape" aria-hidden="true">
+      <div class="tape-track">
+        <span class="tape-item">Signal Ledger · GPT-5.5 Pro Repass Ledger</span>
+        <span class="tape-item">Flattened scenario-valuation archive</span>
+        <span class="tape-item">One row per economic exposure</span>
+        <span class="tape-item">Final top-100 coverage queue</span>
+      </div>
+    </div>
+
+    <div class="app-shell">
+      <aside class="rail" aria-label="Dashboard navigation">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <span class="brand-glyph">SL</span>
+            <span class="brand-rule"></span>
+          </div>
+          <div class="brand-text">
+            <p class="eyebrow">Research Ledger</p>
+            <h1>Signal<br />Ledger</h1>
+          </div>
+        </div>
+
+        <p class="rail-divider"><span>Result Sets</span></p>
+        <nav class="stage-tabs" aria-label="Result sets">
+          <a class="stage-tab" href="./index.html">
+            <strong>Final Top 100</strong>
+            <span>Tournament dashboard</span>
+          </a>
+          <a class="stage-tab active" href="./repass.html" aria-current="page">
+            <strong>GPT-5.5 Repass</strong>
+            <span>Flattened valuation ledger</span>
+          </a>
+        </nav>
+
+        <div class="rail-section">
+          <p class="rail-divider"><span>Reference</span></p>
+          <a class="method-link" href="./methodology.html">Read Methodology</a>
+          <a class="method-link" href="./data/gpt55_repass.json">Download Repass JSON</a>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="page-head repass-hero">
+          <div class="title-block">
+            <p class="masthead-meta">
+              <span>GPT-5.5 Pro Research Pass</span>
+              <span class="dot">●</span>
+              <span id="report-date">Updated May 2026</span>
+            </p>
+            <h2 class="display-headline">Repass Ledger</h2>
+            <p class="lede">
+              A polished, flattened view of the GPT-5.5 Pro scenario-valuation batches.
+              Duplicate refreshes are collapsed, source batch/rank is retained, and the final
+              top-100 coverage gap stays visible.
+            </p>
+          </div>
+          <div class="status-stack">
+            <div class="status-card">
+              <span class="status-label">Coverage</span>
+              <strong id="coverage-status">Loading</strong>
+              <span class="status-corner" aria-hidden="true"></span>
+            </div>
+            <a class="action-link" href="./data/gpt55_repass.json">
+              <span>JSON Data</span>
+            </a>
+          </div>
+        </header>
+
+        <section class="metric-grid repass-metrics" id="repass-metrics" aria-label="Repass summary metrics"></section>
+
+        <section class="insights-band repass-priority" aria-label="Diligence-first snapshot">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Priority Queue</p>
+              <h3>Diligence-First Snapshot</h3>
+            </div>
+            <span id="snapshot-status">Loading top names</span>
+          </div>
+          <div class="priority-strip" id="priority-strip"></div>
+        </section>
+
+        <section class="results-panel repass-table-panel" aria-label="Flattened GPT-5.5 Pro rankings">
+          <div class="panel-head">
+            <p class="eyebrow">Flattened Ledger</p>
+            <h3>All Analyzed Exposures</h3>
+          </div>
+
+          <div class="toolbar">
+            <div class="search-field">
+              <span class="search-icon" aria-hidden="true"></span>
+              <input
+                id="repass-search"
+                type="search"
+                placeholder="Search ticker, company, theme, batch, or rationale"
+                autocomplete="off"
+              />
+              <kbd aria-hidden="true">/</kbd>
+            </div>
+            <div class="toolbar-actions">
+              <select id="tier-filter" aria-label="Tier filter"></select>
+              <select id="sort-select" aria-label="Sort repass table">
+                <option value="overall_rank">Document order</option>
+                <option value="base_moic">Base MOIC</option>
+                <option value="bull_moic">Bull MOIC</option>
+                <option value="ticker">Ticker</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="tier-tabs" id="tier-tabs" aria-label="Tier quick filters"></div>
+          <div class="table-summary" id="repass-summary"></div>
+
+          <div class="table-wrap">
+            <table class="repass-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Ticker</th>
+                  <th>Company</th>
+                  <th>Tier</th>
+                  <th>Base</th>
+                  <th>Bull</th>
+                  <th>Source</th>
+                  <th>Why it ranks here</th>
+                </tr>
+              </thead>
+              <tbody id="repass-body">
+                <tr>
+                  <td colspan="8" class="muted">Loading GPT-5.5 Pro ledger…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="insights-band pending-band" aria-label="Remaining final top-100 repass queue">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Coverage Gap</p>
+              <h3>Still Missing From GPT-5.5 Pro Runs</h3>
+            </div>
+            <span id="pending-status">Loading queue</span>
+          </div>
+          <div class="pending-grid" id="pending-grid"></div>
+        </section>
+
+        <footer class="colophon">
+          <span>Signal Ledger</span>
+          <span>Scenario screens only · Not investment advice</span>
+          <span>GPT-5.5 Pro repass archive</span>
+        </footer>
+      </main>
+    </div>
+
+    <script src="./assets/repass.js?v=20260520a"></script>
+  </body>
+</html>
