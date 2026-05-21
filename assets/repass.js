@@ -91,7 +91,7 @@
       metric("Analyzed", summary.unique_analyzed_names || fmt.format(payload.rows.length), "Flattened economic exposures", "blue"),
       metric("Diligence First", summary.diligence_first_names || fmt.format(diligence), "Highest priority bucket", "green"),
       metric("Strong Watchlist", summary.strong_watchlist_names || fmt.format(watchlist), "Second-tier research queue", "amber"),
-      metric("Top-100 Missing", summary.final_tournament_top_100_names_still_missing_from_pasted_gpt_5_5_pro_scenario_runs || fmt.format(pending), "Remaining repass names", "rose"),
+      metric("Focus Missing", summary.focus_top100_names_still_missing_from_pasted_gpt_5_5_pro_scenario_runs || fmt.format(pending), "Sector focus queue remaining", "rose"),
     ].join("");
   }
 
