@@ -25,7 +25,7 @@
     },
     flash_top1000: {
       label: "Flash Tournament Top 1000",
-      kicker: "50,435 input screen",
+      kicker: "42,543-name global screen",
       description: "DeepSeek V4 Flash elimination tournament: pick top 3 of 10 until 1000 remain.",
     },
   };
