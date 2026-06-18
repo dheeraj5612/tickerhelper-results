@@ -360,7 +360,8 @@
         const reason = row.reason || row.rationale || "";
         const key = rowKey(row);
         const selectedClass = key && key === state.selectedKey ? "selected" : "";
-        return `<tr class="${selectedClass}" tabindex="0" data-row-key="${escapeAttr(key)}" data-thesis-path="${escapeAttr(row.thesis_path || "")}" data-thesis-data-path="${escapeAttr(row.thesis_data_path || "")}" data-ticker="${escapeAttr(row.ticker || "")}">
+        const lockedClass = row.locked ? "locked" : "";
+        return `<tr class="${selectedClass} ${lockedClass}" tabindex="0" data-row-key="${escapeAttr(key)}" data-locked="${row.locked ? "1" : ""}" data-thesis-path="${escapeAttr(row.thesis_path || "")}" data-thesis-data-path="${escapeAttr(row.thesis_data_path || "")}" data-ticker="${escapeAttr(row.ticker || "")}">
           <td class="rank" data-label="Rank">${escapeHtml(row.final_rank || row.rank || "")}</td>
           <td class="ticker-cell" data-label="Ticker">
             <span class="ticker">${escapeHtml(row.ticker || "")}</span>
@@ -555,7 +556,18 @@
   async function openThesis(row) {
     const path = row.dataset.thesisPath || "";
     const thesisDataPath = row.dataset.thesisDataPath || "";
-    if (!path && !thesisDataPath) return;
+    if (row.dataset.locked === "1" || (!path && !thesisDataPath)) {
+      state.selectedKey = row.dataset.rowKey || "";
+      markSelectedRows();
+      els.drawer.classList.add("open");
+      els.drawer.setAttribute("aria-hidden", "false");
+      els.backdrop.hidden = false;
+      els.drawerTitle.textContent = "Top-20 idea — locked";
+      els.drawerSubtitle.textContent = "Subscribers only";
+      els.thesisMeta.textContent = "";
+      els.thesisContent.innerHTML = '<div class="locked-panel"><p>This is one of the <strong>top-20 ranked names</strong>. The ticker, company, and full thesis are reserved for subscribers. The rest of the Top 100 is open below.</p><p><a class="locked-cta" href="https://scarcitytrade.com" target="_blank" rel="noopener">Request access at The Scarcity Trade →</a></p></div>';
+      return;
+    }
 
     state.selectedKey = row.dataset.rowKey || "";
     markSelectedRows();

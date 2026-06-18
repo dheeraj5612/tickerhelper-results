@@ -1125,6 +1125,16 @@ tbody tr.selected .chip {
 }
 tbody tr.selected .rank { color: var(--brass); }
 
+/* locked / gated top-20 rows */
+tbody tr.locked .ticker { color: var(--brass); }
+tbody tr.locked .company-name { color: var(--ink-3); font-style: italic; }
+tbody tr.locked td { background: rgba(230,205,166,0.05); }
+tbody tr.locked:hover td { background: rgba(230,205,166,0.12); }
+.locked-panel { padding: 6px 0; color: var(--ink-2); font-size: 15px; line-height: 1.65; }
+.locked-panel strong { color: var(--ink); }
+.locked-cta { display: inline-block; margin-top: 14px; padding: 11px 18px; background: var(--brass); color: var(--paper); text-decoration: none; font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; }
+.locked-cta:hover { background: #f3e0c0; }
+
 tbody tr:focus-visible td {
   outline: 2px solid var(--oxblood);
   outline-offset: -2px;
