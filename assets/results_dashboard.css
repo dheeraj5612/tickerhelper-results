@@ -1135,6 +1135,14 @@ tbody tr.locked:hover td { background: rgba(230,205,166,0.12); }
 .locked-cta { display: inline-block; margin-top: 14px; padding: 11px 18px; background: var(--brass); color: var(--paper); text-decoration: none; font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; }
 .locked-cta:hover { background: #f3e0c0; }
 
+/* in-table paywall band after rank 20 */
+tr.paywall-band td { padding: 0; border: 0; background: transparent; }
+tr.paywall-band:hover td { background: transparent; }
+.paywall-strip { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin: 6px 0; padding: 14px 22px; background: linear-gradient(90deg, rgba(230,205,166,0.18), rgba(230,205,166,0.05)); border-top: 1px solid var(--brass); border-bottom: 1px solid var(--brass); color: var(--ink); font-size: 14px; }
+.paywall-strip strong { color: var(--brass); }
+.paywall-strip a { color: var(--paper); background: var(--brass); padding: 9px 17px; text-decoration: none; font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap; }
+.paywall-strip a:hover { background: #f3e0c0; }
+
 tbody tr:focus-visible td {
   outline: 2px solid var(--oxblood);
   outline-offset: -2px;

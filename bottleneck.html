@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bottleneck Radar — The Scarcity Screen</title>
+<link rel="icon" href="data:," />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{--navy:#0a1a30;--panel:#0d2140;--panel-2:#11294c;--gold:#e6cda6;--gold-bright:#f3e0c0;--line:rgba(230,205,166,.2);--ink:#f0f3fb;--body:#c4d0e4;--muted:#8fa1bd}
+*{box-sizing:border-box}html{font-size:16px}
+body{margin:0;background:radial-gradient(1100px 600px at 80% -10%,rgba(230,205,166,.07),transparent 60%),var(--navy);color:var(--body);font-family:"IBM Plex Sans",system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+a{color:inherit}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 0;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--line)}
+.home{color:var(--gold);text-decoration:none;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.home:hover{color:var(--gold-bright)}
+nav a{color:var(--muted);text-decoration:none;font-size:.92rem;margin-left:22px}
+nav a:hover{color:var(--gold)}
+.hero{padding:34px 0 22px}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+h1{font-family:Fraunces,serif;font-weight:500;font-size:clamp(2.1rem,4.4vw,3.1rem);line-height:1.05;letter-spacing:-.01em;color:var(--ink);margin:0 0 16px}
+.lead{font-size:1.08rem;max-width:64ch;color:var(--body)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding:14px 0 30px}
+.card{border:1px solid var(--line);border-radius:14px;padding:22px 24px;background:linear-gradient(180deg,rgba(230,205,166,.05),rgba(16,39,73,.25))}
+.card .top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:4px}
+.card h3{font-family:Fraunces,serif;font-weight:500;font-size:1.35rem;color:var(--ink);margin:0}
+.card .tk{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--gold);white-space:nowrap}
+.card .meta{font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.card p{margin:0;font-size:.96rem;color:var(--body)}
+.card .choke{color:var(--gold);font-weight:500}
+.tag{display:inline-block;margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.cta{border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:14px;padding:24px 26px;background:linear-gradient(90deg,rgba(230,205,166,.1),rgba(16,39,73,.25));display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:34px}
+.cta h3{font-family:Fraunces,serif;font-weight:500;font-size:1.4rem;color:var(--ink);margin:0 0 4px}
+.cta p{margin:0;color:var(--body);font-size:.95rem}
+.btn{display:inline-block;background:var(--gold);color:var(--navy);text-decoration:none;padding:12px 20px;border-radius:8px;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.btn:hover{background:var(--gold-bright)}
+footer{border-top:1px solid var(--line);padding:22px 0 44px;color:var(--muted);font-size:.84rem}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="home" href="https://scarcitytrade.com">↩ The Scarcity Trade</a>
+    <nav>
+      <a href="./index.html">The Scarcity Screen</a>
+      <a href="https://scarcitytrade.com">About</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">Bottleneck Radar</div>
+    <h1>Cheap companies sitting on a chokepoint.</h1>
+    <p class="lead">A working list of underfollowed businesses that control a scarce node in a supply chain — memory PCBs, grid power, semiconductor crystal growth — and still trade below what the chokepoint is worth. The full ranked picks live in the gated watchlist.</p>
+  </section>
+
+  <section class="grid">
+    <div class="card">
+      <div class="top"><h3>TLB</h3><span class="tk">356860.KQ · Korea</span></div>
+      <div class="meta">Memory PCBs · semiconductors</div>
+      <p>High-layer-count printed circuit boards for DRAM modules and HBM. <span class="choke">The chokepoint:</span> module substrates that scale directly with AI-memory content, from a supplier the market still prices as a commodity PCB maker.</p>
+      <span class="tag">In research</span>
+    </div>
+    <div class="card">
+      <div class="top"><h3>LS Electric</h3><span class="tk">010120.KS · Korea</span></div>
+      <div class="meta">Grid power · electrification</div>
+      <p>Transformers, switchgear and power-grid equipment. <span class="choke">The chokepoint:</span> transformer and grid-connection capacity — the gating item for AI-datacenter power and electrification, with multi-year order backlogs.</p>
+      <span class="tag">In research</span>
+    </div>
+    <div class="card">
+      <div class="top"><h3>PVA TePla</h3><span class="tk">TPE.DE · Germany</span></div>
+      <div class="meta">Semi equipment · SiC</div>
+      <p>Metrology systems and silicon-carbide single-crystal growing furnaces. <span class="choke">The chokepoint:</span> the crystal-growth step that constrains SiC power-semiconductor capacity for EVs and grid inverters.</p>
+      <span class="tag">In research</span>
+    </div>
+    <div class="card">
+      <div class="top"><h3>M&amp;C Solution</h3><span class="tk">484870.KS · Korea</span></div>
+      <div class="meta">Defense electronics</div>
+      <p>Precision control and guidance components for defense platforms. <span class="choke">The chokepoint:</span> a narrow, qualified supplier into a structurally rising Korean defense-export cycle.</p>
+      <span class="tag">In research</span>
+    </div>
+    <div class="card">
+      <div class="top"><h3>HVM</h3><span class="tk">295310.KQ · Korea</span></div>
+      <div class="meta">Industrial · components</div>
+      <p>An underfollowed Korean small-cap on the radar for its position in a supply-constrained niche. <span class="choke">The chokepoint:</span> under diligence — full write-up in progress.</p>
+      <span class="tag">In research</span>
+    </div>
+    <div class="card">
+      <div class="top"><h3>World X Industry</h3><span class="tk">101160.KQ · Korea</span></div>
+      <div class="meta">Industrial · components</div>
+      <p>A neglected Korean micro-cap flagged by the screen for a scarce, hard-to-substitute product line. <span class="choke">The chokepoint:</span> under diligence — full write-up in progress.</p>
+      <span class="tag">In research</span>
+    </div>
+  </section>
+
+  <div class="cta">
+    <div>
+      <h3>The ranked, actionable list is gated.</h3>
+      <p>This radar is the public teaser. The full top-100 screen and the top-20 conviction names sit behind the subscription.</p>
+    </div>
+    <a class="btn" href="./index.html">Open the watchlist →</a>
+  </div>
+</div>
+<footer class="wrap">
+  Bottleneck Radar · <a href="https://scarcitytrade.com" style="color:var(--gold);text-decoration:none">The Scarcity Trade</a> · A working research list, illustrative only. Not investment advice or a recommendation. The author may hold positions.
+</footer>
+</body>
+</html>

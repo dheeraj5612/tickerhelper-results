@@ -217,10 +217,10 @@
       0;
 
     els.metrics.innerHTML = [
-      metric("Universe", fmt.format(universeCount), "Global listed-equity screen", "blue"),
-      metric("Thesis Corpus", thesisCount ? fmt.format(thesisCount) : "Complete", "V4 Pro coverage, Codex finalists", "green"),
-      metric("Final Rows", fmt.format(overview.final_rank_rows || publicScope.final_rank_rows || 0), "Codex stack-ranked with rationale", "amber"),
-      metric("Public Scope", config.publicMode ? "Top 100" : "Full Local", config.publicMode ? "Trimmed static export" : `Archive ${compressedSize}`, "rose"),
+      metric("GPT-5.5 Pro pass", fmt.format(universeCount), "Names screened to a top 100", "amber"),
+      metric("Pipeline", "4 rounds", "Flash → V4 Pro → GPT-5.5 Pro", "blue"),
+      metric("Final stack rank", fmt.format(overview.final_rank_rows || publicScope.final_rank_rows || 0), "GPT-5.5 Pro top-100 theses", "green"),
+      metric("Top 20", "Gated", "Reserved for subscribers", "rose"),
     ].join("");
 
     els.status.textContent = config.publicMode
@@ -257,7 +257,7 @@
       `${fmt.format(universeCount)} investable names screened`,
       `${fmt.format(firstFinalCount)} V4 Pro high-reasoning semifinalists`,
       `${fmt.format(top100InputCount)} V4 Pro max-reasoning inputs to top 100`,
-      `${fmt.format(publicScope.codex_top100_count || overview.final_rank_rows || 100)} fresh Codex finalist theses`,
+      `${fmt.format(publicScope.codex_top100_count || overview.final_rank_rows || 100)} fresh GPT-5.5 Pro finalist theses`,
       config.publicMode
         ? "Public export limited to final top 100"
         : `${fmt.format(publicScope.batch_decisions || 7280)} saved batch JSON decisions`,
@@ -353,7 +353,7 @@
       return;
     }
 
-    els.body.innerHTML = rows
+    const rowsHtml = rows
       .map((row) => {
         const marketCap = Number(row.market_cap_usd);
         const marketCapText = Number.isFinite(marketCap) ? money.format(marketCap) : "";
@@ -379,8 +379,12 @@
           <td class="value-cell" data-label="Value">${escapeHtml(marketCapText)}</td>
           <td class="reason" data-label="Rationale">${escapeHtml(reason)}</td>
         </tr>`;
-      })
-      .join("");
+      });
+    const lastLocked = rows.reduce((a, r, i) => (r.locked ? i : a), -1);
+    if (lastLocked >= 0 && lastLocked < rows.length - 1) {
+      rowsHtml.splice(lastLocked + 1, 0, '<tr class="paywall-band"><td colspan="6"><div class="paywall-strip"><span>Ranks 1–20 are reserved for <strong>The Scarcity Trade</strong> subscribers.</span><a href="https://scarcitytrade.com" target="_blank" rel="noopener">Request access →</a></div></td></tr>');
+    }
+    els.body.innerHTML = rowsHtml.join("");
   }
 
   function sortRows(rows) {
