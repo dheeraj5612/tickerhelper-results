@@ -241,7 +241,7 @@
 
 .utility-button:hover,
 .icon-button:hover {
-  background: var(--ink);
+  background: var(--brass);
   color: var(--paper);
 }
 
@@ -270,7 +270,7 @@
 }
 
 .tier-tab.active {
-  background: var(--ink);
+  background: var(--brass);
   color: var(--paper);
 }
 
@@ -566,7 +566,7 @@
   z-index: 80;
   max-width: min(360px, calc(100vw - 36px));
   border: 1px solid var(--rule);
-  background: var(--ink);
+  background: var(--brass);
   color: var(--paper);
   padding: 10px 13px;
   font-family: "JetBrains Mono", ui-monospace, monospace;
